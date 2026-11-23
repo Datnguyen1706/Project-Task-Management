@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lịch công việc tháng với CSS Grid 7 cột chuẩn - PROTASK LHU">
+  <meta name="author" content="LHU Software Engineering Team">
+  <title>PROTASK - Lịch Công Việc Tháng (CSS Grid 7 Cột)</title>
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- SIDEBAR NAVIGATION (10 TRANG CHUẨN) -->
+    <aside class="app-sidebar" aria-label="Thanh điều hướng chính">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <img src="assets/images/chim_lac_gold.png" alt="Chim Lạc Origami LHU" class="brand-chim-lac">
+          <span style="letter-spacing:-0.5px;">PROTASK</span>
+          <span class="brand-badge">LHU</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Tổng quan & Điều hành</div>
+        <a href="index.html" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span>Trang chủ (Dashboard)</span>
+        </a>
+        <a href="kanban.html" class="nav-item">
+          <span class="nav-icon">📋</span>
+          <span>Bảng việc (Kanban)</span>
+          <span class="nav-count" id="sidebar-task-count">12</span>
+        </a>
+        <a href="task-detail.html" class="nav-item">
+          <span class="nav-icon">🔍</span>
+          <span>Chi tiết Task & Thảo luận</span>
+        </a>
+        <a href="gantt.html" class="nav-item">
+          <span class="nav-icon">📈</span>
+          <span>Lịch trình (Gantt)</span>
+        </a>
+        <a href="calendar.html" class="nav-item active">
+          <span class="nav-icon">📅</span>
+          <span>Lịch công việc (Calendar)</span>
+        </a>
+
+        <div class="nav-section-title">Tài nguyên & Hiệu suất</div>
+        <a href="resources.html" class="nav-item">
+          <span class="nav-icon">🔥</span>
+          <span>Phân bổ tài nguyên</span>
+        </a>
+        <a href="reports.html" class="nav-item">
+          <span class="nav-icon">⏱️</span>
+          <span>Báo cáo & Chấm công</span>
+        </a>
+        <a href="members.html" class="nav-item">
+          <span class="nav-icon">👥</span>
+          <span>Quản lý thành viên</span>
+          <span class="nav-count">5</span>
+        </a>
+
+        <div class="nav-section-title">Hệ thống & Cài đặt</div>
+        <a href="settings.html" class="nav-item">
+          <span class="nav-icon">⚙️</span>
+          <span>Thông báo & Cài đặt</span>
+        </a>
+        <a href="login.html" class="nav-item">
+          <span class="nav-icon">🚪</span>
+          <span>Đăng nhập / Đổi tài khoản</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-profile" style="flex:1;">
+          <div class="avatar" style="background:#06b6d4;">NCĐ</div>
+          <div class="user-mini-info">
+            <h5>Nguyễn Chí Đạt</h5>
+            <p>Leader / Project Manager</p>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-logout-action" title="Đăng xuất khỏi tài khoản" style="background:transparent; border:none; color:var(--text-light); font-size:1.1rem; cursor:pointer; padding:6px 8px;">🚪</button>
+      </div>
+    </aside>
+
+    <!-- MAIN APP AREA -->
+    <div class="app-main">
+      
+      <!-- TOPBAR -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="menu-toggle-btn" id="mobile-menu-toggle" aria-label="Mở menu">☰</button>
+          <span class="badge badge-cyan" style="font-size:0.75rem; padding:4px 10px;">⚡ Sprint 2</span>
+          <div class="header-search">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="global-search-input" placeholder="Tìm kiếm công việc...">
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="btn-icon" id="theme-toggle-btn" title="Chuyển chế độ Sáng / Tối">🌙</button>
+          <div class="notification-btn-wrap">
+            <button class="btn-icon" id="notif-dropdown-btn" title="Xem thông báo">🔔</button>
+            <span class="notification-badge"></span>
+          </div>
+          <a href="gantt.html" class="btn btn-secondary btn-sm">📈 Chuyển Gantt Timeline</a>
+          <a href="kanban.html" class="btn btn-cyan btn-sm">+ Tạo Task</a>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+        
+        <header class="page-header">
+          <div class="page-title">
+            <h1>Lịch Công Việc Tháng (Calendar View)</h1>
+            <p>Bố cục CSS Grid 7 cột chuẩn Thứ 2 - Chủ nhật, tự động ánh xạ deadline của từng nhiệm vụ.</p>
+          </div>
+          
+          <!-- ĐIỀU HƯỚNG THÁNG -->
+          <div style="display:flex; align-items:center; gap:10px;">
+            <button class="btn btn-secondary btn-sm" id="cal-prev-month">◀ Tháng trước</button>
+            <h3 id="calendar-current-month-label" style="font-size:1.1rem; font-weight:800; min-width:160px; text-align:center; color:var(--primary);">Tháng 11 / 2026</h3>
+            <button class="btn btn-secondary btn-sm" id="cal-next-month">Tháng sau ▶</button>
+            <button class="btn btn-primary btn-sm" id="cal-today-btn">Hôm nay</button>
+          </div>
+        </header>
+
+        <!-- KHỐI LỊCH GRID 7 CỘT -->
+        <section class="calendar-grid-wrap card-clean">
+          
+          <!-- HÀNG TIÊU ĐỀ 7 THỨ TRONG TUẦN -->
+          <div class="calendar-days-head">
+            <div>Thứ Hai</div>
+            <div>Thứ Ba</div>
+            <div>Thứ Tư</div>
+            <div>Thứ Năm</div>
+            <div>Thứ Sáu</div>
+            <div>Thứ Bảy</div>
+            <div>Chủ Nhật</div>
+          </div>
+
+          <!-- LƯỚI NGÀY THÁNG ĐƯỢC GENERATE BẰNG JAVASCRIPT -->
+          <div class="calendar-month-grid" id="calendar-month-grid">
+            <!-- Render động bằng CalendarController.renderCalendar() -->
+          </div>
+
+        </section>
+
+      </main>
+
+    </div>
+  </div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/logic.js"></script>
+  <script src="assets/js/features.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      CalendarController.init();
+    });
+  </script>
+</body>
+</html>

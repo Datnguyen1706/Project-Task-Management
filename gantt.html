@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Biểu đồ tiến độ Gantt Chart tương tác cho dự án nhóm 5 sinh viên ĐH Lạc Hồng - PROTASK">
+  <meta name="author" content="LHU Software Engineering Team">
+  <title>PROTASK - Biểu đồ Lịch trình Gantt Chart (14 Ngày Sprint)</title>
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- SIDEBAR NAVIGATION (10 TRANG CHUẨN) -->
+    <aside class="app-sidebar" aria-label="Thanh điều hướng chính">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <img src="assets/images/chim_lac_gold.png" alt="Chim Lạc Origami LHU" class="brand-chim-lac">
+          <span style="letter-spacing:-0.5px;">PROTASK</span>
+          <span class="brand-badge">LHU</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Tổng quan & Điều hành</div>
+        <a href="index.html" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span>Trang chủ (Dashboard)</span>
+        </a>
+        <a href="kanban.html" class="nav-item">
+          <span class="nav-icon">📋</span>
+          <span>Bảng việc (Kanban)</span>
+          <span class="nav-count" id="sidebar-task-count">12</span>
+        </a>
+        <a href="task-detail.html" class="nav-item">
+          <span class="nav-icon">🔍</span>
+          <span>Chi tiết Task & Thảo luận</span>
+        </a>
+        <a href="gantt.html" class="nav-item active">
+          <span class="nav-icon">📈</span>
+          <span>Lịch trình (Gantt)</span>
+        </a>
+        <a href="calendar.html" class="nav-item">
+          <span class="nav-icon">📅</span>
+          <span>Lịch công việc (Calendar)</span>
+        </a>
+
+        <div class="nav-section-title">Tài nguyên & Hiệu suất</div>
+        <a href="resources.html" class="nav-item">
+          <span class="nav-icon">🔥</span>
+          <span>Phân bổ tài nguyên</span>
+        </a>
+        <a href="reports.html" class="nav-item">
+          <span class="nav-icon">⏱️</span>
+          <span>Báo cáo & Chấm công</span>
+        </a>
+        <a href="members.html" class="nav-item">
+          <span class="nav-icon">👥</span>
+          <span>Quản lý thành viên</span>
+          <span class="nav-count">5</span>
+        </a>
+
+        <div class="nav-section-title">Hệ thống & Cài đặt</div>
+        <a href="settings.html" class="nav-item">
+          <span class="nav-icon">⚙️</span>
+          <span>Thông báo & Cài đặt</span>
+        </a>
+        <a href="login.html" class="nav-item">
+          <span class="nav-icon">🚪</span>
+          <span>Đăng nhập / Đổi tài khoản</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-profile" style="flex:1;">
+          <div class="avatar" style="background:#06b6d4;">NCĐ</div>
+          <div class="user-mini-info">
+            <h5>Nguyễn Chí Đạt</h5>
+            <p>Leader / Project Manager</p>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-logout-action" title="Đăng xuất khỏi tài khoản" style="background:transparent; border:none; color:var(--text-light); font-size:1.1rem; cursor:pointer; padding:6px 8px;">🚪</button>
+      </div>
+    </aside>
+
+    <!-- MAIN APP AREA -->
+    <div class="app-main">
+      
+      <!-- TOPBAR -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="menu-toggle-btn" id="mobile-menu-toggle" aria-label="Mở menu">☰</button>
+          <span class="badge badge-cyan" style="font-size:0.75rem; padding:4px 10px;">⚡ Sprint 2</span>
+          <div class="header-search">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="global-search-input" placeholder="Tìm kiếm công việc...">
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="btn-icon" id="theme-toggle-btn" title="Chuyển chế độ Sáng / Tối">🌙</button>
+          <div class="notification-btn-wrap">
+            <button class="btn-icon" id="notif-dropdown-btn" title="Xem thông báo">🔔</button>
+            <span class="notification-badge"></span>
+          </div>
+          <a href="calendar.html" class="btn btn-secondary btn-sm">📅 Xem Dạng Lịch Tháng</a>
+          <a href="kanban.html" class="btn btn-cyan btn-sm">+ Tạo Task</a>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+        
+        <header class="page-header">
+          <div class="page-title">
+            <h1>Biểu Đồ Lịch Trình Dự Án (Gantt Chart Timeline)</h1>
+            <p>Trực quan hóa thời lượng, xung đột tiến độ và lộ trình 14 ngày của Sprint 2.</p>
+          </div>
+          
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="badge badge-cyan">Sprint 2: 01/11 - 15/11/2026</span>
+          </div>
+        </header>
+
+        <!-- KHỐI CHÚ THÍCH TRẠNG THÁI (LEGEND) -->
+        <section style="display:flex; gap:16px; margin-bottom:20px; flex-wrap:wrap; background:var(--bg-card); padding:12px 18px; border-radius:var(--radius-md); border:1px solid var(--border-color); font-size:0.82rem; font-weight:700;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="width:14px; height:14px; border-radius:4px; background:#10b981;"></span>
+            <span>Đã hoàn thành (Done)</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="width:14px; height:14px; border-radius:4px; background:var(--primary);"></span>
+            <span>Đang thực hiện (Doing - Hổ Phách)</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="width:14px; height:14px; border-radius:4px; background:var(--primary);"></span>
+            <span>Cần làm (To-Do - Vàng Kim)</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="width:14px; height:14px; border-radius:4px; background:#664f40;"></span>
+            <span>Chờ duyệt (Backlog - Nâu)</span>
+          </div>
+        </section>
+
+        <!-- CONTAINER BIỂU ĐỒ GANTT -->
+        <section class="gantt-container card-clean" aria-label="Biểu đồ tiến độ Gantt">
+          
+          <!-- TIÊU ĐỀ TRỤC 14 NGÀY -->
+          <div class="gantt-header">
+            <div style="text-align:left; padding-left:10px;">NHIỆM VỤ SPRINT</div>
+            <div>N1</div><div>N2</div><div>N3</div><div>N4</div><div>N5</div><div>N6</div><div>N7</div>
+            <div>N8</div><div>N9</div><div>N10</div><div>N11</div><div>N12</div><div>N13</div><div>N14</div>
+          </div>
+
+          <!-- DANH SÁCH DÒNG NHIỆM VỤ VẼ BẰNG JS -->
+          <div id="gantt-chart-body">
+            <!-- Render động bằng GanttController.renderGantt() -->
+          </div>
+
+        </section>
+
+      </main>
+
+    </div>
+  </div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/logic.js"></script>
+  <script src="assets/js/features.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      GanttController.init();
+    });
+  </script>
+</body>
+</html>
