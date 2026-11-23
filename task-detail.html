@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Chi tiết nhiệm vụ, checklist đầu việc con và luồng thảo luận nhóm - PROTASK LHU">
+  <meta name="author" content="LHU Software Engineering Team">
+  <title>PROTASK - Chi Tiết Công Việc & Thảo Luận (Task Details)</title>
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- SIDEBAR NAVIGATION (10 TRANG CHUẨN) -->
+    <aside class="app-sidebar" aria-label="Thanh điều hướng chính">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <img src="assets/images/chim_lac_gold.png" alt="Chim Lạc Origami LHU" class="brand-chim-lac">
+          <span style="letter-spacing:-0.5px;">PROTASK</span>
+          <span class="brand-badge">LHU</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Tổng quan & Điều hành</div>
+        <a href="index.html" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span>Trang chủ (Dashboard)</span>
+        </a>
+        <a href="kanban.html" class="nav-item">
+          <span class="nav-icon">📋</span>
+          <span>Bảng việc (Kanban)</span>
+          <span class="nav-count" id="sidebar-task-count">12</span>
+        </a>
+        <a href="task-detail.html" class="nav-item active">
+          <span class="nav-icon">🔍</span>
+          <span>Chi tiết Task & Thảo luận</span>
+        </a>
+        <a href="gantt.html" class="nav-item">
+          <span class="nav-icon">📈</span>
+          <span>Lịch trình (Gantt)</span>
+        </a>
+        <a href="calendar.html" class="nav-item">
+          <span class="nav-icon">📅</span>
+          <span>Lịch công việc (Calendar)</span>
+        </a>
+
+        <div class="nav-section-title">Tài nguyên & Hiệu suất</div>
+        <a href="resources.html" class="nav-item">
+          <span class="nav-icon">🔥</span>
+          <span>Phân bổ tài nguyên</span>
+        </a>
+        <a href="reports.html" class="nav-item">
+          <span class="nav-icon">⏱️</span>
+          <span>Báo cáo & Chấm công</span>
+        </a>
+        <a href="members.html" class="nav-item">
+          <span class="nav-icon">👥</span>
+          <span>Quản lý thành viên</span>
+          <span class="nav-count">5</span>
+        </a>
+
+        <div class="nav-section-title">Hệ thống & Cài đặt</div>
+        <a href="settings.html" class="nav-item">
+          <span class="nav-icon">⚙️</span>
+          <span>Thông báo & Cài đặt</span>
+        </a>
+        <a href="login.html" class="nav-item">
+          <span class="nav-icon">🚪</span>
+          <span>Đăng nhập / Đổi tài khoản</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-profile" style="flex:1;">
+          <div class="avatar" style="background:#06b6d4;">NCĐ</div>
+          <div class="user-mini-info">
+            <h5>Nguyễn Chí Đạt</h5>
+            <p>Leader / Project Manager</p>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-logout-action" title="Đăng xuất khỏi tài khoản" style="background:transparent; border:none; color:var(--text-light); font-size:1.1rem; cursor:pointer; padding:6px 8px;">🚪</button>
+      </div>
+    </aside>
+
+    <!-- MAIN APP AREA -->
+    <div class="app-main">
+      
+      <!-- TOPBAR -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="menu-toggle-btn" id="mobile-menu-toggle" aria-label="Mở menu">☰</button>
+          <span class="badge badge-cyan" style="font-size:0.75rem; padding:4px 10px;">⚡ Sprint 2</span>
+          <a href="kanban.html" class="btn btn-secondary btn-sm">
+            ← Quay lại Bảng Kanban
+          </a>
+        </div>
+
+        <div class="header-right">
+          <button class="btn-icon" id="theme-toggle-btn" title="Chuyển chế độ Sáng / Tối">🌙</button>
+          <div class="notification-btn-wrap">
+            <button class="btn-icon" id="notif-dropdown-btn" title="Xem thông báo">🔔</button>
+            <span class="notification-badge"></span>
+          </div>
+          <a href="kanban.html" class="btn btn-cyan btn-sm">+ Thêm Task</a>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+        
+        <header class="page-header">
+          <div class="page-title">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom: 6px;">
+              <span class="badge badge-cyan" id="detail-task-priority">KHẨN CẤP</span>
+              <span class="badge badge-cyan">Mã Task: LHU-TASK</span>
+            </div>
+            <h1 id="detail-task-title">Đang tải thông tin nhiệm vụ...</h1>
+            <p id="detail-task-dates">Thời gian thực hiện dự kiến</p>
+          </div>
+          <div style="display:flex; gap:12px; align-items:center;">
+            <label for="detail-task-status" style="font-size:0.85rem; font-weight:700;">Trạng thái:</label>
+            <select id="detail-task-status" class="form-control" style="width:160px; font-weight:700;">
+              <option value="backlog">Chờ xử lý (Backlog)</option>
+              <option value="todo">Cần làm (To-Do)</option>
+              <option value="doing">Đang làm (Doing)</option>
+              <option value="done">Hoàn thành (Done)</option>
+            </select>
+          </div>
+        </header>
+
+        <!-- GRID 2 CỘT: CHI TIẾT & THẢO LUẬN -->
+        <section class="task-detail-grid perspective-container">
+          
+          <!-- CỘT CHÍNH (BÊN TRÁI): MÔ TẢ, CHECKLIST VÀ THẢO LUẬN -->
+          <article class="card card-clean">
+            <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:12px; color:var(--primary);">Mô Tả Yêu Cầu Kỹ Thuật</h3>
+            <p id="detail-task-desc" style="font-size:0.92rem; color:var(--text-muted); line-height:1.7; margin-bottom:24px;">
+              Nội dung mô tả nhiệm vụ sẽ hiển thị ở đây.
+            </p>
+
+            <!-- CHECKLIST ĐẦU VIỆC CON (SUBTASKS) -->
+            <div class="checklist-box">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h4 style="font-size:0.95rem; font-weight:800;">Đầu Việc Con (Checklist)</h4>
+                <span style="font-size:0.75rem; color:var(--text-muted);">Tick để đánh dấu hoàn thành</span>
+              </div>
+              
+              <div id="subtasks-list-container">
+                <!-- Render động các checkbox -->
+              </div>
+
+              <!-- Thêm subtask mới -->
+              <div style="display:flex; gap:8px; margin-top:14px;">
+                <input type="text" id="new-subtask-input" class="form-control" placeholder="Thêm tiêu chí nghiệm thu con..." style="padding:8px 12px; font-size:0.85rem;">
+                <button type="button" class="btn btn-secondary btn-sm" id="add-subtask-btn">+ Thêm</button>
+              </div>
+            </div>
+
+            <!-- TỆP ĐÍNH KÈM (ATTACHMENTS MOCKUP) -->
+            <div style="margin: 24px 0;">
+              <h4 style="font-size:0.95rem; font-weight:800; margin-bottom:12px;">Tài Liệu & Tệp Đính Kèm</h4>
+              <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px;">
+                <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:var(--bg-subtle); border-radius:var(--radius-md); border:1px solid var(--border-color);">
+                  <span style="font-size:1.4rem;">📄</span>
+                  <div>
+                    <div style="font-size:0.82rem; font-weight:700;">spec-wireframe.png</div>
+                    <div style="font-size:0.7rem; color:var(--text-light);">2.4 MB • Hình phác thảo UI</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; padding:10px 14px; background:var(--bg-subtle); border-radius:var(--radius-md); border:1px solid var(--border-color);">
+                  <span style="font-size:1.4rem;">📦</span>
+                  <div>
+                    <div style="font-size:0.82rem; font-weight:700;">api_schema.json</div>
+                    <div style="font-size:0.7rem; color:var(--text-light);">128 KB • Hợp đồng dữ liệu</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- KHỐI BÌNH LUẬN & THẢO LUẬN TRỰC TIẾP -->
+            <div style="margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 22px;">
+              <h4 style="font-size:1.05rem; font-weight:800; margin-bottom: 16px;">Trao Đổi & Bình Luận (Team Discussion)</h4>
+              
+              <div class="comments-timeline" id="comments-list-container">
+                <!-- Render động các bình luận -->
+              </div>
+
+              <!-- Form nhập comment -->
+              <form id="task-comment-form" style="margin-top:20px; display:flex; gap:12px;">
+                <input type="text" id="task-comment-input" class="form-control" placeholder="Viết phản hồi thảo luận hoặc câu hỏi cho nhóm..." required>
+                <button type="submit" class="btn btn-cyan">
+                  <span>Gửi</span>
+                </button>
+              </form>
+            </div>
+          </article>
+
+          <!-- CỘT PHỤ (BÊN PHẢI): METADATA NGƯỜI PHỤ TRÁCH & THỜI LƯỢNG -->
+          <aside style="display:flex; flex-direction:column; gap:20px;">
+            
+            <!-- THẺ NGƯỜI PHỤ TRÁCH -->
+            <article class="card card-clean">
+              <h4 style="font-size:0.82rem; font-weight:800; text-transform:uppercase; color:var(--text-muted); margin-bottom:14px;">Thành Viên Phụ Trách</h4>
+              <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+                <div class="avatar avatar-lg" id="detail-assignee-avatar" style="background:#06b6d4;">NCĐ</div>
+                <div>
+                  <h3 id="detail-assignee-name" style="font-size:1.05rem; font-weight:800;">Nguyễn Chí Đạt</h3>
+                  <p id="detail-assignee-role" style="font-size:0.78rem; color:var(--text-muted);">Leader / Project Manager</p>
+                </div>
+              </div>
+              <div class="badge badge-cyan" style="width:100%; justify-content:center;">
+                ✓ Chịu trách nhiệm hoàn thành
+              </div>
+            </article>
+
+            <!-- THẺ ĐO LƯỜNG THỜI GIAN -->
+            <article class="card card-clean">
+              <h4 style="font-size:0.82rem; font-weight:800; text-transform:uppercase; color:var(--text-muted); margin-bottom:14px;">Ước Lượng & Thực Tế</h4>
+              <p id="detail-task-hours" style="font-size:0.92rem; font-weight:700; color:var(--primary); margin-bottom:12px;">
+                Ước tính: 8h | Thực tế: 6h
+              </p>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill cyan" style="width: 75%;"></div>
+              </div>
+              <p style="font-size:0.75rem; color:var(--text-muted); margin-top:8px;">
+                Ghi nhận qua Module Time-tracking (Tuần 11 & 12).
+              </p>
+              <a href="reports.html" class="btn btn-secondary btn-sm" style="width:100%; margin-top:14px;">
+                ⏱️ Chấm công cho Task này
+              </a>
+            </article>
+
+          </aside>
+
+        </section>
+
+      </main>
+
+    </div>
+  </div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/logic.js"></script>
+  <script src="assets/js/features.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      TaskDetailController.init();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bảng quản lý công việc Kanban tương tác kéo thả chuẩn CSS Grid - PROTASK LHU">
+  <meta name="author" content="LHU Software Engineering Team">
+  <title>PROTASK - Bảng việc Kanban (CSS Grid & Native Drag-Drop)</title>
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- SIDEBAR NAVIGATION (10 TRANG CHUẨN) -->
+    <aside class="app-sidebar" aria-label="Thanh điều hướng chính">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <img src="assets/images/chim_lac_gold.png" alt="Chim Lạc Origami LHU" class="brand-chim-lac">
+          <span style="letter-spacing:-0.5px;">PROTASK</span>
+          <span class="brand-badge">LHU</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Tổng quan & Điều hành</div>
+        <a href="index.html" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span>Trang chủ (Dashboard)</span>
+        </a>
+        <a href="kanban.html" class="nav-item active">
+          <span class="nav-icon">📋</span>
+          <span>Bảng việc (Kanban)</span>
+          <span class="nav-count" id="sidebar-task-count">12</span>
+        </a>
+        <a href="task-detail.html" class="nav-item">
+          <span class="nav-icon">🔍</span>
+          <span>Chi tiết Task & Thảo luận</span>
+        </a>
+        <a href="gantt.html" class="nav-item">
+          <span class="nav-icon">📈</span>
+          <span>Lịch trình (Gantt)</span>
+        </a>
+        <a href="calendar.html" class="nav-item">
+          <span class="nav-icon">📅</span>
+          <span>Lịch công việc (Calendar)</span>
+        </a>
+
+        <div class="nav-section-title">Tài nguyên & Hiệu suất</div>
+        <a href="resources.html" class="nav-item">
+          <span class="nav-icon">🔥</span>
+          <span>Phân bổ tài nguyên</span>
+        </a>
+        <a href="reports.html" class="nav-item">
+          <span class="nav-icon">⏱️</span>
+          <span>Báo cáo & Chấm công</span>
+        </a>
+        <a href="members.html" class="nav-item">
+          <span class="nav-icon">👥</span>
+          <span>Quản lý thành viên</span>
+          <span class="nav-count">5</span>
+        </a>
+
+        <div class="nav-section-title">Hệ thống & Cài đặt</div>
+        <a href="settings.html" class="nav-item">
+          <span class="nav-icon">⚙️</span>
+          <span>Thông báo & Cài đặt</span>
+        </a>
+        <a href="login.html" class="nav-item">
+          <span class="nav-icon">🚪</span>
+          <span>Đăng nhập / Đổi tài khoản</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-profile" style="flex:1;">
+          <div class="avatar" style="background:#06b6d4;">NCĐ</div>
+          <div class="user-mini-info">
+            <h5>Nguyễn Chí Đạt</h5>
+            <p>Leader / Project Manager</p>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-logout-action" title="Đăng xuất khỏi tài khoản" style="background:transparent; border:none; color:var(--text-light); font-size:1.1rem; cursor:pointer; padding:6px 8px;">🚪</button>
+      </div>
+    </aside>
+
+    <!-- MAIN APP AREA -->
+    <div class="app-main">
+      
+      <!-- TOPBAR -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="menu-toggle-btn" id="mobile-menu-toggle" aria-label="Mở menu">☰</button>
+          <span class="badge badge-cyan" style="font-size:0.75rem; padding:4px 10px;">⚡ Sprint 2</span>
+          <div class="header-search">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="global-search-input" placeholder="Tìm kiếm công việc...">
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="btn-icon" id="theme-toggle-btn" title="Chuyển chế độ Sáng / Tối">🌙</button>
+          
+          <div class="notification-btn-wrap">
+            <button class="btn-icon" id="notif-dropdown-btn" title="Xem thông báo">🔔</button>
+            <span class="notification-badge"></span>
+          </div>
+
+          <button class="btn btn-cyan btn-sm" onclick="UI.openModal('add-task-modal')">
+            <span>+ Tạo Task Mới</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+        
+        <!-- HEADER TRANG & TIẾN ĐỘ TỔNG QUAN -->
+        <header class="page-header">
+          <div class="page-title">
+            <h1>Bảng Quản Lý Công Việc (Kanban Board)</h1>
+            <p>Hỗ trợ kéo thả (Drag & Drop), phân bổ công việc theo thành viên & tự động cập nhật tiến độ.</p>
+          </div>
+          
+          <!-- TIẾN ĐỘ DỰ ÁN TRÊN KANBAN -->
+          <div style="background:var(--bg-card); padding:12px 20px; border-radius:var(--radius-lg); border:1px solid var(--border-color); display:flex; align-items:center; gap:16px; min-width:260px;">
+            <div style="flex:1;">
+              <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
+                <span>Tiến độ Sprint:</span>
+                <span id="project-progress-percent" style="color:var(--primary);">75%</span>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill cyan" id="project-progress-bar" style="width:75%;"></div>
+              </div>
+            </div>
+            <div style="font-size:1.4rem;">🎯</div>
+          </div>
+        </header>
+
+        <!-- KANBAN TOOLBAR & FILTERS -->
+        <section class="kanban-toolbar">
+          <div class="kanban-filters">
+            <div style="position:relative;">
+              <input type="text" id="search-task-input" class="form-control" placeholder="Tìm theo tên task..." style="width:220px; padding:8px 14px; font-size:0.85rem;">
+            </div>
+
+            <select id="filter-priority" class="form-control" style="width:160px; padding:8px 14px; font-size:0.85rem;">
+              <option value="">Tất cả mức ưu tiên</option>
+              <option value="high">🔥 Khẩn cấp (High)</option>
+              <option value="medium">⚡ Vừa (Medium)</option>
+              <option value="low">🌱 Thấp (Low)</option>
+            </select>
+
+            <select id="filter-assignee" class="form-control" style="width:190px; padding:8px 14px; font-size:0.85rem;">
+              <option value="">Tất cả 5 thành viên</option>
+              <option value="mem-1">Nguyễn Chí Đạt (Leader)</option>
+              <option value="mem-2">Hồ Nguyễn Mai Trang</option>
+              <option value="mem-3">Nguyễn Thị Tuyết Ngân</option>
+              <option value="mem-4">Nguyễn Tấn Thuận</option>
+              <option value="mem-5">Hoàng Tuấn Anh</option>
+            </select>
+          </div>
+
+          <div style="display:flex; gap:10px;">
+            <a href="task-detail.html" class="btn btn-secondary btn-sm">
+              <span>🔍 Mở Chi Tiết Task</span>
+            </a>
+            <button class="btn btn-primary btn-sm" onclick="UI.openModal('add-task-modal')">
+              <span>+ Thêm Task</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- KANBAN GRID: 4 CỘT CHUẨN AGILE (BACKLOG, TO-DO, DOING, DONE) -->
+        <section class="kanban-board-grid perspective-container" aria-label="Bảng Kanban các cột trạng thái">
+          
+          <!-- CỘT 1: BACKLOG -->
+          <article class="kanban-column" data-status="backlog">
+            <div class="kanban-column-header">
+              <div class="column-title-wrap">
+                <span class="column-dot backlog"></span>
+                <h3 style="font-size:0.92rem; font-weight:800;">Chờ xử lý (Backlog)</h3>
+              </div>
+              <span class="column-count" id="count-backlog">0</span>
+            </div>
+            <div class="kanban-cards-list" id="kanban-list-backlog">
+              <!-- Render động bằng JavaScript -->
+            </div>
+          </article>
+
+          <!-- CỘT 2: TO-DO -->
+          <article class="kanban-column" data-status="todo">
+            <div class="kanban-column-header">
+              <div class="column-title-wrap">
+                <span class="column-dot todo"></span>
+                <h3 style="font-size:0.92rem; font-weight:800;">Cần làm (To-Do)</h3>
+              </div>
+              <span class="column-count" id="count-todo">0</span>
+            </div>
+            <div class="kanban-cards-list" id="kanban-list-todo">
+              <!-- Render động bằng JavaScript -->
+            </div>
+          </article>
+
+          <!-- CỘT 3: DOING -->
+          <article class="kanban-column" data-status="doing" style="border-top: 3px solid var(--primary);">
+            <div class="kanban-column-header">
+              <div class="column-title-wrap">
+                <span class="column-dot doing"></span>
+                <h3 style="font-size:0.92rem; font-weight:800; color:var(--primary);">Đang làm (Doing)</h3>
+              </div>
+              <span class="column-count" id="count-doing" style="background:var(--primary); color:#fff; border:none;">0</span>
+            </div>
+            <div class="kanban-cards-list" id="kanban-list-doing">
+              <!-- Render động bằng JavaScript -->
+            </div>
+          </article>
+
+          <!-- CỘT 4: DONE -->
+          <article class="kanban-column" data-status="done" style="border-top: 3px solid var(--success);">
+            <div class="kanban-column-header">
+              <div class="column-title-wrap">
+                <span class="column-dot done"></span>
+                <h3 style="font-size:0.92rem; font-weight:800; color:var(--success);">Hoàn thành (Done)</h3>
+              </div>
+              <span class="column-count" id="count-done">0</span>
+            </div>
+            <div class="kanban-cards-list" id="kanban-list-done">
+              <!-- Render động bằng JavaScript -->
+            </div>
+          </article>
+
+        </section>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- MODAL: THÊM NHIỆM VỤ MỚI -->
+  <div class="modal-backdrop" id="add-task-modal">
+    <div class="modal-dialog card-clean">
+      <div class="modal-header">
+        <h3>✨ Khởi Tạo Nhiệm Vụ Mới (Task Sprint)</h3>
+        <button class="btn-icon btn-sm" onclick="UI.closeModal('add-task-modal')">✕</button>
+      </div>
+      <form id="add-task-form" onsubmit="event.preventDefault(); KanbanController.addNewTask(this);">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="task-title-input">Tên nhiệm vụ (*)</label>
+            <input type="text" id="task-title-input" name="title" class="form-control" placeholder="Ví dụ: Lập trình Form Validation Regex" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="task-desc-input">Mô tả công việc</label>
+            <textarea id="task-desc-input" name="description" class="form-control" rows="3" placeholder="Chi tiết yêu cầu kỹ thuật, tiêu chuẩn W3C hoặc lưu ý..."></textarea>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label class="form-label" for="task-priority-input">Độ ưu tiên</label>
+              <select id="task-priority-input" name="priority" class="form-control">
+                <option value="high">🔥 Khẩn cấp (High)</option>
+                <option value="medium" selected>⚡ Vừa (Medium)</option>
+                <option value="low">🌱 Thấp (Low)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="task-assignee-input">Người phụ trách</label>
+              <select id="task-assignee-input" name="assigneeId" class="form-control">
+                <option value="mem-1">Nguyễn Chí Đạt (Leader)</option>
+                <option value="mem-2">Hồ Nguyễn Mai Trang</option>
+                <option value="mem-3">Nguyễn Thị Tuyết Ngân</option>
+                <option value="mem-4" selected>Nguyễn Tấn Thuận</option>
+                <option value="mem-5">Hoàng Tuấn Anh</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label class="form-label" for="task-deadline-input">Hạn hoàn thành</label>
+              <input type="date" id="task-deadline-input" name="endDate" class="form-control" value="2026-11-20">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="task-hours-input">Giờ ước tính (h)</label>
+              <input type="number" id="task-hours-input" name="estimatedHours" class="form-control" value="6" min="1" max="80">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="UI.closeModal('add-task-modal')">Hủy bỏ</button>
+          <button type="submit" class="btn btn-cyan">Thêm vào Bảng Kanban</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/logic.js"></script>
+  <script src="assets/js/features.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      KanbanController.init();
+    });
+  </script>
+</body>
+</html>
