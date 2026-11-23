@@ -1,0 +1,81 @@
+DANH SÁCH CÂU LỆNH PROMPT AI (PROMPT LOG) - HỌC PHẦN THIẾT KẾ WEB LHU (111101)
+Dự án: PROTASK - Quản lý Dự án & Phân bổ Công việc Thông minh cho nhóm 5 sinh viên ĐH Lạc Hồng
+Quy mô: Hệ thống 10 Trang Web Hoàn Chỉnh (Nhóm 5 thành viên, mỗi người 2 trang)
+Trưởng nhóm: Nguyễn Chí Đạt (125000004@lachong.edu.vn)
+Thành viên:
+1. Nguyễn Chí Đạt (Leader / Project Manager) - 125000004@lachong.edu.vn (login.html, index.html)
+2. Hồ Nguyễn Mai Trang (Frontend UI Specialist) - 125001156@lachong.edu.vn (kanban.html, task-detail.html)
+3. Nguyễn Thị Tuyết Ngân (UI/UX Designer) - 125001247@lachong.edu.vn (gantt.html, calendar.html)
+4. Nguyễn Tấn Thuận (Data & Logic Engineer) - 125000770@lachong.edu.vn (resources.html, reports.html)
+5. Hoàng Tuấn Anh (QA & Test Engineer) - 125002570@lachong.edu.vn (members.html, settings.html)
+
+================================================================================
+PROMPT 1: KHỞI TẠO CẤU TRÚC DỰ ÁN 10 TRANG VÀ THƯ MỤC TIÊU CHUẨN (TUẦN 1 - 2)
+================================================================================
+"Bạn là một Senior Front-end Developer và Giảng viên hướng dẫn môn Thiết kế Web tại Đại học Lạc Hồng. Hãy giúp nhóm 5 người chúng tôi thiết lập cấu trúc thư mục tiêu chuẩn theo mô hình Scrum PBL gồm 10 trang web:
+login.html, index.html, kanban.html, task-detail.html, gantt.html, calendar.html, resources.html, reports.html, members.html, settings.html cùng thư mục assets/css, assets/js. Yêu cầu mã nguồn HTML5 Semantic 100% (<header>, <nav>, <aside>, <main>, <section>, <article>, <figure>, <time>, <footer>), không lạm dụng div, hỗ trợ meta viewport chuẩn SEO."
+
+================================================================================
+PROMPT 2: DESIGN SYSTEM NÂU ESPRESSO, VÀNG ÁNH KIM & ĐIỂM NHẤN HỔ PHÁCH (TUẦN 4)
+================================================================================
+"Hãy tạo file style.css khai báo hệ thống CSS Variables tại :root với phong cách bề thế, sang trọng và khỏe khoắn. Màu sắc chủ đạo là Nâu cà phê đậm (Deep Espresso Mocha #1d130c, #291a11), màu Vàng Ánh Kim Hoàng Gia (#d4af37, metallic gradient) làm điểm nhấn kim loại sang trọng. Đặc biệt, để tạo điểm nhấn hài hòa lôi cuốn người xem dừng chân lại, hãy thiết kế biểu tượng 'Viên Ngọc Hổ Phách' (Amber Gem #f59e0b, #ff8c00) phát sáng với animation nhịp thở và viền hào quang ấm áp."
+
+================================================================================
+PROMPT 3: HIỆU ỨNG 3D KHỐI & CUỘN TRANG MƯỢT MÀ 60FPS KHÔNG BỊ KHỰNG (TUẦN 5)
+================================================================================
+"Tích hợp các hiệu ứng 3D mượt mà cho website: (1) perspective: 1200px với transform: translate3d(0, -6px, 12px) rotateX(2deg) rotateY(-2deg) cho các card thống kê và card task. (2) Hiệu ứng 3D Card Flip (xoay 180 độ theo trục Y) cho thẻ nhân sự tại members.html theo đúng bài tập Tuần 5. (3) Tối ưu hóa scrolling bằng thuộc tính scroll-behavior: smooth và sử dụng GPU Acceleration qua transform: translate3d(0,0,0) và will-change: transform để chuyển động mượt mà không bị khựng lag."
+
+================================================================================
+PROMPT 4: BỐ CỤC CSS GRID (KANBAN 4 CỘT & CALENDAR 7 CỘT) MOBILE FIRST (TUẦN 3 - 4)
+================================================================================
+"Viết layout.css sử dụng CSS Grid: (1) Bảng Kanban 4 cột (Backlog, To-Do, Doing, Done) có minmax linh hoạt, tự động co về 2 cột trên Tablet và 1 cột trên Mobile. (2) Trang Lịch công việc tháng dùng CSS Grid 7 cột đại diện cho Thứ 2 đến Chủ nhật. Đảm bảo không sử dụng float và không xuất hiện thanh cuộn ngang (Horizontal scroll) trên bất kỳ thiết bị nào."
+
+================================================================================
+PROMPT 5: HỢP ĐỒNG DỮ LIỆU CHUNG (SHARED DATA CONTRACT) CHO 5 THÀNH VIÊN
+================================================================================
+"Tạo file data.js chứa mảng đối tượng DEFAULT_MEMBERS gồm 5 sinh viên ĐH Lạc Hồng kèm vai trò, email trường và tải giờ tuần; mảng DEFAULT_TASKS có checklist subtasks và comments; cùng đối tượng StorageManager để tự động đồng bộ dữ liệu vào LocalStorage của trình duyệt."
+
+================================================================================
+PROMPT 6: KÉO THẢ KANBAN NATIVE HTML5 & TÍNH % TIẾN ĐỘ THỜI GIAN THỰC (TUẦN 10)
+================================================================================
+"Viết mã JavaScript thuần cho tính năng kéo thả thẻ công việc giữa các cột bằng Native HTML5 Drag and Drop API. Lắng nghe sự kiện dragstart, dragover, drop; khi thẻ rơi vào cột mới thì cập nhật status và tự động tính lại phần trăm hoàn thành của toàn dự án (số task Done chia cho tổng số task), hiển thị Toast thông báo màu hổ phách."
+
+================================================================================
+PROMPT 7: PHÂN BỔ TÀI NGUYÊN & CẢNH BÁO ĐỎ QUÁ TẢI > 40H/TUẦN (TUẦN 12)
+================================================================================
+"Viết hàm TaskLogic.calculateResourceAllocation() sử dụng Array Filter và Reduce để tính tổng số giờ được gán trong tuần của 5 thành viên. Nếu có thành viên bị gán > 40 giờ/tuần, hãy kích hoạt trạng thái 'overloaded' và render một hộp Cảnh Báo Đỏ nổi bật lên đầu trang resources.html."
+
+================================================================================
+PROMPT 8: ĐỒNG HỒ BẤM GIỜ POMODORO VÀ FORM VALIDATION REGEX (TUẦN 11)
+================================================================================
+"Xây dựng module Time-tracking với đồng hồ bấm giờ (Stopwatch) có các nút Bắt đầu, Tạm dừng, Đặt lại hiển thị định dạng HH:MM:SS. Thêm một form nộp kết quả công việc kiểm tra URL bằng Regex (bắt buộc đúng chuẩn đường dẫn web) và kiểm tra email sinh viên có đuôi @lachong.edu.vn. Bắt lỗi không cho nhập số giờ âm."
+
+================================================================================
+PROMPT 9: TIẾN TRÌNH THÔNG BÁO TỰ ĐỘNG QUÉT DEADLINE (SETINTERVAL) (TUẦN 10 & 14)
+================================================================================
+"Trong settings.html, xây dựng một tiến trình JavaScript nền chạy bằng setInterval() chu kỳ 30 giây để quét mảng công việc. Nếu phát hiện nhiệm vụ chưa hoàn thành có deadline dưới 48 giờ, hãy tự động kích hoạt Push Toast Notification cảnh báo."
+
+================================================================================
+PROMPT 10: KIỂM THỬ W3C VALIDATION VÀ TỐI ƯU HÓA CLEAN CODE (TUẦN 6 & 14)
+================================================================================
+"Rà soát toàn bộ 10 file HTML, style.css và JavaScript để gộp các class có chung thuộc tính, loại bỏ mã thừa, kiểm tra Console đảm bảo 0 lỗi Uncaught TypeError/SyntaxError để đạt chuẩn W3C Validation 0 lỗi 0 cảnh báo."
+
+================================================================================
+PROMPT 11: TÁCH LOGO CHIM LẠC LHU NGUYÊN BẢN & HERO BANNER VOLUMETRIC SUNBEAM (TUẦN 13)
+================================================================================
+"Từ ảnh logo gốc của trường Đại học Lạc Hồng, hãy dùng script xử lý ảnh để cắt và tách riêng con Chim Lạc vàng kim origami (loại bỏ hoàn toàn dòng chữ 'ĐẠI HỌC LẠC HỒNG - KHÁT VỌNG DẪN ĐẦU', chỉ giữ lại biểu tượng con chim origami trên nền trong suốt PNG) để làm điểm nhấn nhận diện thương hiệu. Kết hợp phong cách Hero Banner từ video TikTok: màu nâu ấm sâu thẳm, chùm tia sáng mặt trời hổ phách chiếu chéo (Volumetric Sunbeams), cụm đốm lửa Hổ Phách lơ lửng, con Chim Lạc 3D tương tác theo di chuột (Mouse Parallax) và hiệu ứng cuộn trang mượt mà không bị khựng."
+
+================================================================================
+PROMPT 12: HỆ THỐNG XÁC THỰC THẬT (STRICT AUTHENTICATION) & ROUTE GUARD (TUẦN 11 & 14)
+================================================================================
+"Nâng cấp toàn diện trang đăng nhập: Không cho phép người dùng vào hệ thống tự do khi chưa có tài khoản. Bắt buộc người dùng phải nhập chính xác email trường (@lachong.edu.vn) và mật khẩu của mình (hoặc đăng ký tài khoản mới) thông qua StorageManager.login(). Xây dựng cơ chế Route Guard App.checkAuth() tự động chuyển hướng về login.html nếu truy cập bất kỳ trang nào mà chưa có phiên đăng nhập hợp lệ. Bổ sung bảng thông tin tài khoản của 5 thành viên nhóm hỗ trợ click điền nhanh vào form để giảng viên kiểm thử tiện lợi."
+
+================================================================================
+PROMPT 13: BẢNG MÀU TỐI GIẢN OBSIDIAN CYAN, ANIMATED CARDS OPENING & INTERACTIVE LAMP (TUẦN 14)
+================================================================================
+"Tái thiết kế giao diện theo phong cách tối giản công nghệ cao từ 2 video mẫu: (1) Thay thế bảng màu vàng/nâu cũ bằng màu đen xám đá phiến (Obsidian Dark Slate #0b0f17, #131b2e) kết hợp sắc xanh điện tử (Electric Cyan #06b6d4, #22d3ee) tinh tế. (2) Loại bỏ toàn bộ hiệu ứng 3D tilt và card rotation khiến trang bị chao đảo nghiêng ngả, giữ các thẻ phẳng ổn định. (3) Trang login.html tích hợp đèn bàn tương tác với dây kéo công tắc bật/tắt chùm sáng, nút con mắt hiện/ẩn mật khẩu và màn hình chuyển tiếp đăng nhập thành công mượt mà. (4) Trang index.html tích hợp Animated Cards Opening trình diễn 5 phân hệ dự án có thanh điều khiển tương tác. (5) Thiết lập hiệu ứng chuyển trang mượt mà (Smooth Page Transitions) giữa 10 trang web."
+
+================================================================================
+PROMPT 14: ĐÈN BÀN KÉO DÂY LỘ FORM ĐĂNG NHẬP & BỘ CHUYỂN THEME SÁNG / TỐI (TUẦN 15)
+================================================================================
+"Hoàn thiện trải nghiệm trang đăng nhập và bộ chuyển đổi giao diện: (1) Sửa đúng chuẩn Video 2 Interactive Lamp Login: Ban đầu khi vào login.html thì đèn bàn ở trạng thái TẮT trong bóng tối, form đăng nhập ẩn hoàn toàn. Khi người dùng nhấp hoặc kéo dây công tắc đèn, đèn phát âm thanh click cơ học (Web Audio API), bóng đèn bừng sáng, nón ánh sáng rọi xuống và form đăng nhập mượt mà lộ diện; khi tắt đèn thì form mờ dần ẩn vào bóng tối. (2) Sửa triệt để bộ chuyển giao diện Sáng / Tối: trước đây bấm nút không đổi màu do lệch tên class CSS; nay đồng bộ hoàn hảo 2 theme rõ rệt: Ban Đêm (Obsidian Slate cao cấp) và Ban Ngày (Clean White Slate tươi sáng, tương phản cao, dễ đọc). Trạng thái theme được lưu vĩnh viễn trên localStorage và không bị chớp giật giao diện khi tải trang."
