@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PROTASK - Hệ thống Quản trị Dự án & Phân bổ Công việc Thông minh cho nhóm 5 sinh viên ĐH Lạc Hồng.">
+  <meta name="author" content="LHU Software Engineering Team">
+  <title>PROTASK - Dashboard Quản trị Dự án & Công việc (LHU)</title>
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- ASIDE: SIDEBAR NAVIGATION (SEMANTIC HTML5 CẤU TRÚC 10 TRANG) -->
+    <aside class="app-sidebar" aria-label="Thanh điều hướng chính">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <img src="assets/images/chim_lac_gold.png" alt="Chim Lạc Origami LHU" class="brand-chim-lac">
+          <span style="letter-spacing:-0.5px;">PROTASK</span>
+          <span class="brand-badge">LHU</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <!-- NHÓM 1: TỔNG QUAN & ĐIỀU HÀNH -->
+        <div class="nav-section-title">Tổng quan & Điều hành</div>
+        <a href="index.html" class="nav-item active">
+          <span class="nav-icon">📊</span>
+          <span>Trang chủ (Dashboard)</span>
+        </a>
+        <a href="kanban.html" class="nav-item">
+          <span class="nav-icon">📋</span>
+          <span>Bảng việc (Kanban)</span>
+          <span class="nav-count" id="sidebar-task-count">12</span>
+        </a>
+        <a href="task-detail.html" class="nav-item">
+          <span class="nav-icon">🔍</span>
+          <span>Chi tiết Task & Thảo luận</span>
+        </a>
+        <a href="gantt.html" class="nav-item">
+          <span class="nav-icon">📈</span>
+          <span>Lịch trình (Gantt)</span>
+        </a>
+        <a href="calendar.html" class="nav-item">
+          <span class="nav-icon">📅</span>
+          <span>Lịch công việc (Calendar)</span>
+        </a>
+
+        <!-- NHÓM 2: TÀI NGUYÊN & HIỆU SUẤT -->
+        <div class="nav-section-title">Tài nguyên & Hiệu suất</div>
+        <a href="resources.html" class="nav-item">
+          <span class="nav-icon">🔥</span>
+          <span>Phân bổ tài nguyên</span>
+        </a>
+        <a href="reports.html" class="nav-item">
+          <span class="nav-icon">⏱️</span>
+          <span>Báo cáo & Chấm công</span>
+        </a>
+        <a href="members.html" class="nav-item">
+          <span class="nav-icon">👥</span>
+          <span>Quản lý thành viên</span>
+          <span class="nav-count">5</span>
+        </a>
+
+        <!-- NHÓM 3: HỆ THỐNG & TÀI KHOẢN -->
+        <div class="nav-section-title">Hệ thống & Cài đặt</div>
+        <a href="settings.html" class="nav-item">
+          <span class="nav-icon">⚙️</span>
+          <span>Thông báo & Cài đặt</span>
+        </a>
+        <a href="login.html" class="nav-item">
+          <span class="nav-icon">🚪</span>
+          <span>Đăng nhập / Đổi tài khoản</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-profile" style="flex:1;">
+          <div class="avatar" style="background:#06b6d4;">NCĐ</div>
+          <div class="user-mini-info">
+            <h5>Nguyễn Chí Đạt</h5>
+            <p>Leader / Project Manager</p>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-logout-action" title="Đăng xuất khỏi tài khoản" style="background:transparent; border:none; color:var(--text-light); font-size:1.1rem; cursor:pointer; padding:6px 8px;">🚪</button>
+      </div>
+    </aside>
+
+    <!-- MAIN APP AREA -->
+    <div class="app-main">
+      
+      <!-- HEADER: TOP NAVIGATION BAR -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="menu-toggle-btn" id="mobile-menu-toggle" aria-label="Mở menu điều hướng">☰</button>
+          
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="badge badge-cyan" style="font-size:0.75rem; padding:4px 10px;">⚡ Sprint 2 Active</span>
+          </div>
+
+          <div class="header-search">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="global-search-input" placeholder="Tìm kiếm nhanh công việc, ấn Enter...">
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="btn-icon" id="theme-toggle-btn" title="Chuyển chế độ Sáng / Tối">🌙</button>
+          
+          <div class="notification-btn-wrap">
+            <button class="btn-icon" id="notif-dropdown-btn" title="Xem thông báo hệ thống">🔔</button>
+            <span class="notification-badge"></span>
+          </div>
+
+          <a href="kanban.html" class="btn btn-cyan btn-sm">
+            <span>+ Tạo Task Mới</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT (SEMANTIC MAIN) -->
+      <main class="page-content" id="dashboard-stats-overview">
+        
+        <!-- HERO BANNER TỐI GIẢN HIỆN ĐẠI: ANIMATED CARDS OPENING (THEO VIDEO 1) -->
+        <section class="hero-animated-cards" aria-label="Phân hệ Quản lý Dự án & Công việc">
+          <div class="hero-ambient-glow"></div>
+          
+          <div class="hero-split-grid">
+            <!-- Cột trái: Thông tin phân hệ đang kích hoạt -->
+            <div class="hero-module-info">
+              <div class="hero-module-tag" id="heroModuleTag">PHÂN HỆ 2.3.4 • SPRINT 2</div>
+              <h1 class="hero-module-title" id="heroModuleTitle">BẢNG VIỆC KANBAN TƯƠNG TÁC</h1>
+              <p class="hero-module-desc" id="heroModuleDesc">
+                Bố cục CSS Grid 4 cột (Backlog, To-do, Doing, Done) kết hợp kéo thả HTML5 Native Drag & Drop mượt mà 60fps, tự động tính % hoàn thành toàn bộ dự án.
+              </p>
+              <div class="hero-module-actions">
+                <a href="kanban.html" class="btn btn-cyan" id="heroModuleLink">
+                  <span>Khám Phá Phân Hệ</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </a>
+                <a href="gantt.html" class="btn btn-secondary">
+                  <span>📈 Lịch Trình Gantt</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Cột phải: Dãy thẻ lật mở mượt mà (Animated Cards Slider) -->
+            <div class="hero-cards-carousel" id="heroCardsCarousel">
+              <!-- Render tự động bởi AnimatedCardsHero.init() -->
+            </div>
+          </div>
+
+          <!-- Thanh điều khiển phía dưới: Mũi tên < >, Progress Bar và Số đếm 01/05 -->
+          <div class="hero-bottom-controls">
+            <div class="hero-slider-nav-btns">
+              <button class="hero-nav-arrow" id="heroPrevBtn" aria-label="Phân hệ trước">‹</button>
+              <button class="hero-nav-arrow" id="heroNextBtn" aria-label="Phân hệ kế tiếp">›</button>
+            </div>
+
+            <div class="hero-progress-track">
+              <div class="hero-progress-fill" id="heroProgressFill"></div>
+            </div>
+
+            <div class="hero-counter" id="heroCounterEl">
+              <strong>01</strong> / 05
+            </div>
+          </div>
+        </section>
+
+        <!-- PAGE HEADER -->
+        <header class="page-header">
+          <div class="page-title">
+            <h1>Trung Tâm Điều Hành Dự Án (Dashboard)</h1>
+            <p>Tổng quan tiến độ Sprint 2, năng suất 5 thành viên & kiểm soát tài nguyên nhóm LHU.</p>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <a href="resources.html" class="btn btn-secondary btn-sm">
+              <span>🔥 Xem Biểu Đồ Nhiệt</span>
+            </a>
+            <a href="kanban.html" class="btn btn-primary btn-sm">
+              <span>📋 Mở Bảng Kanban</span>
+            </a>
+          </div>
+        </header>
+
+        <!-- SECTION 1: 4 STATS CARDS (KPI OVERVIEW TỐI GIẢN, PHẲNG & TINH TẾ) -->
+        <section class="stats-grid" aria-label="Các chỉ số then chốt">
+          
+          <article class="stat-card">
+            <div class="stat-icon" style="color:var(--primary); background:rgba(6,182,212,0.12);">📋</div>
+            <div class="stat-info">
+              <h4>Tổng Số Nhiệm Vụ</h4>
+              <div class="stat-value" id="dash-stat-total">12</div>
+              <div class="stat-desc">4 Backlog, 4 To-Do, 4 Done</div>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-icon" style="color:#22d3ee; background:rgba(34,211,238,0.12);">⚡</div>
+            <div class="stat-info">
+              <h4>Tiến Độ Hoàn Thành</h4>
+              <div class="stat-value" id="dash-stat-progress">75%</div>
+              <div class="stat-desc">Tính toán bởi TaskLogic</div>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-icon" style="color:var(--success); background:var(--success-bg);">✓</div>
+            <div class="stat-info">
+              <h4>Nhiệm Vụ Đã Xong</h4>
+              <div class="stat-value" id="dash-stat-done">8</div>
+              <div class="stat-desc">Đã qua kiểm thử W3C & Review</div>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-icon" style="color:#a855f7; background:rgba(168,85,247,0.12);">⏱️</div>
+            <div class="stat-info">
+              <h4>Tổng Giờ Ghi Nhận</h4>
+              <div class="stat-value" id="dash-stat-hours">38.5h</div>
+              <div class="stat-desc">Tính toán từ mảng TimeLogs</div>
+            </div>
+          </article>
+        </section>
+
+        <!-- SECTION 2: BIỂU ĐỒ TIẾN ĐỘ & NHIỆM VỤ KHẨN CẤP (CSS GRID 2 CỘT) -->
+        <section class="dashboard-sections-grid">
+          
+          <!-- KHỐI TRÁI: DỰ ÁN & TIẾN ĐỘ 5 THÀNH VIÊN -->
+          <article class="card card-clean">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+              <div>
+                <h3 style="font-size:1.15rem; font-weight:800;">Tiến Độ Thành Viên (Sprint Workload)</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted);">Tỷ lệ hoàn thành công việc được gán của 5 lập trình viên</p>
+              </div>
+              <span class="badge badge-cyan">Agile Scrum</span>
+            </div>
+
+            <div id="dash-members-workload">
+              <!-- Render động bằng JS từ StorageManager.getMembers() -->
+            </div>
+
+            <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:0.82rem; color:var(--text-muted);">
+                Trạng thái tài nguyên: <strong style="color:var(--primary);">1 thành viên đạt ngưỡng tối đa 42h</strong>
+              </span>
+              <a href="resources.html" style="font-size:0.82rem; color:var(--primary); font-weight:700;">
+                Kiểm tra chi tiết Heatmap →
+              </a>
+            </div>
+          </article>
+
+          <!-- KHỐI PHẢI: BIỂU ĐỒ DONUT SVG TIẾN ĐỘ TỔNG THỂ & NHIỆM VỤ KHẨN CẤP -->
+          <aside class="card card-clean" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <h3 style="font-size:1.1rem; font-weight:800; margin-bottom:12px;">Tổng Quan Sprint</h3>
+              
+              <!-- BIỂU ĐỒ TRÒN DONUT CHART SVG -->
+              <div style="display:flex; justify-content:center; align-items:center; position:relative; margin: 16px 0;">
+                <svg width="140" height="140" viewBox="0 0 140 140">
+                  <circle cx="70" cy="70" r="54" fill="none" stroke="var(--bg-subtle)" stroke-width="12"></circle>
+                  <circle id="dash-svg-progress" cx="70" cy="70" r="54" fill="none" stroke="var(--primary)" stroke-width="12" stroke-linecap="round" transform="rotate(-90 70 70)"></circle>
+                </svg>
+                <div style="position:absolute; text-align:center;">
+                  <div id="dash-donut-percent" style="font-size:1.6rem; font-weight:800; color:var(--text-main); line-height:1;">75%</div>
+                  <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700;">HOÀN THÀNH</div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+                <h4 style="font-size:0.85rem; font-weight:800; text-transform:uppercase; color:var(--text-muted);">Nhiệm Vụ Khẩn Cấp</h4>
+                <a href="kanban.html" style="font-size:0.75rem; color:var(--primary);">Xem tất cả</a>
+              </div>
+              <div class="urgent-tasks-list" id="dash-urgent-tasks-list">
+                <!-- Render động bằng JavaScript -->
+              </div>
+            </div>
+          </aside>
+
+        </section>
+
+        <!-- SECTION 3: PHÍM TẮT ĐIỀU HÀNH 10 TRANG HỆ THỐNG (INDEX HUB CHUẨN TUẦN 6) -->
+        <section class="card card-clean" style="background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-subtle) 100%); border-color: var(--border-cyan);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 18px; flex-wrap:wrap; gap:12px;">
+            <div>
+              <h3 style="font-size:1.15rem; font-weight:800; color:var(--primary);">Bản Đồ Hệ Thống 10 Trang (Project Navigation Hub)</h3>
+              <p style="font-size:0.82rem; color:var(--text-muted);">Đáp ứng đầy đủ 10 trang bài tập theo phân tích Scrum của nhóm 5 sinh viên ĐH Lạc Hồng</p>
+            </div>
+            <span class="badge badge-cyan">10 Trang Hoàn Chỉnh</span>
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+            <a href="login.html" class="urgent-task-item" style="border-left: 3px solid var(--primary);">
+              <span>1. Xác thực & Đăng nhập</span>
+              <span style="font-size:0.75rem; color:var(--primary);">login.html ➔</span>
+            </a>
+            <a href="index.html" class="urgent-task-item" style="border-left: 3px solid var(--primary);">
+              <span>2. Dashboard Tổng quan</span>
+              <span style="font-size:0.75rem; color:var(--primary);">index.html ➔</span>
+            </a>
+            <a href="kanban.html" class="urgent-task-item" style="border-left: 3px solid var(--primary);">
+              <span>3. Bảng việc Kanban</span>
+              <span style="font-size:0.75rem; color:var(--primary);">kanban.html ➔</span>
+            </a>
+            <a href="task-detail.html" class="urgent-task-item" style="border-left: 3px solid var(--primary);">
+              <span>4. Chi tiết Task & Thảo luận</span>
+              <span style="font-size:0.75rem; color:var(--primary);">task-detail.html ➔</span>
+            </a>
+            <a href="gantt.html" class="urgent-task-item" style="border-left: 3px solid var(--primary);">
+              <span>5. Biểu đồ Gantt 14 ngày</span>
+              <span style="font-size:0.75rem; color:var(--primary);">gantt.html ➔</span>
+            </a>
+            <a href="calendar.html" class="urgent-task-item" style="border-left: 3px solid var(--primary);">
+              <span>6. Lịch công việc 7 cột</span>
+              <span style="font-size:0.75rem; color:var(--primary);">calendar.html ➔</span>
+            </a>
+            <a href="resources.html" class="urgent-task-item" style="border-left: 3px solid var(--danger);">
+              <span>7. Phân bổ Tài nguyên</span>
+              <span style="font-size:0.75rem; color:var(--primary);">resources.html ➔</span>
+            </a>
+            <a href="reports.html" class="urgent-task-item" style="border-left: 3px solid var(--primary);">
+              <span>8. Báo cáo & Time-tracking</span>
+              <span style="font-size:0.75rem; color:var(--primary);">reports.html ➔</span>
+            </a>
+            <a href="members.html" class="urgent-task-item" style="border-left: 3px solid var(--primary);">
+              <span>9. Quản lý 5 Thành viên</span>
+              <span style="font-size:0.75rem; color:var(--primary);">members.html ➔</span>
+            </a>
+            <a href="settings.html" class="urgent-task-item" style="border-left: 3px solid var(--primary);">
+              <span>10. Cài đặt & Quét Deadline</span>
+              <span style="font-size:0.75rem; color:var(--primary);">settings.html ➔</span>
+            </a>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- FOOTER (SEMANTIC HTML5 FOOTER CHUẨN BÀI HỌC TUẦN 6) -->
+      <footer style="padding: 24px 30px; background: var(--bg-card); border-top: 1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:0.82rem; color:var(--text-muted);">
+        <div>
+          <strong>PROTASK LHU</strong> • Hệ thống Quản trị Dự án & Công việc Thông minh - Đại học Lạc Hồng.
+        </div>
+        <div>
+          Trưởng nhóm: <strong>Nguyễn Chí Đạt (125000004)</strong> • Kiến trúc: Vibe Coding & Agile Scrum.
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- FLOATING ACTION BUTTON (FAB) CHUẨN TUẦN 5 -->
+  <button class="fab-btn" onclick="window.location.href='kanban.html'" title="Tạo nhanh nhiệm vụ mới">
+    +
+  </button>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/logic.js"></script>
+  <script src="assets/js/features.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
