@@ -1,0 +1,996 @@
+/* ===================================================================
+   PROTASK - LAYOUT & RESPONSIVE GRID SYSTEMS (LHU WEB DESIGN STANDARD)
+   Học phần: Thiết kế Web (111101) - Trường Đại học Lạc Hồng (LHU)
+   Hỗ trợ 10 Trang Web - CSS Grid, Flexbox, Mobile First & 3D Transitions
+   =================================================================== */
+
+/* --- 1. OVERALL APP SHELL (FLEXBOX & FIXED ASIDE) --- */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  background-color: var(--bg-page);
+}
+
+/* Sidebar Navigation */
+.app-sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--bg-card);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 950;
+  transition: transform var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar-header {
+  height: var(--header-height);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  background: linear-gradient(180deg, var(--bg-subtle) 0%, var(--bg-card) 100%);
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+}
+
+.brand-logo .logo-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--primary-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 12px var(--primary-glow);
+  transform: translate3d(0, 0, 0);
+  transition: transform var(--transition-bounce);
+}
+
+.brand-logo:hover .logo-icon {
+  transform: rotate(15deg) scale(1.08);
+}
+
+.brand-badge {
+  font-size: 0.65rem;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--border-cyan);
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  margin-left: 4px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 18px 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-section-title {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-light);
+  font-weight: 800;
+  padding: 14px 12px 6px 12px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.nav-item:hover {
+  background-color: var(--bg-subtle);
+  color: var(--primary);
+  transform: translateX(4px);
+}
+body.dark-theme .nav-item:hover {
+  color: #22d3ee;
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(14, 165, 233, 0.15) 100%);
+  color: var(--primary);
+  font-weight: 700;
+  border: 1px solid var(--border-amber);
+}
+body.dark-theme .nav-item.active {
+  color: #fde68a;
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  bottom: 15%;
+  width: 4px;
+  background: var(--primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+.nav-icon {
+  font-size: 1.15rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+}
+
+.nav-count {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  background: var(--bg-subtle);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.nav-item.active .nav-count {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+}
+
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-card);
+}
+
+.user-mini-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast);
+}
+
+.user-mini-profile:hover {
+  background: var(--bg-subtle);
+}
+
+.user-mini-info h5 {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-mini-info p {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* --- 2. MAIN APP AREA & TOPBAR --- */
+.app-main {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: calc(100% - var(--sidebar-width));
+}
+
+.app-header {
+  height: var(--header-height);
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  backdrop-filter: blur(8px);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.menu-toggle-btn {
+  display: none;
+  font-size: 1.4rem;
+  color: var(--text-main);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.header-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: 8px 18px;
+  width: 320px;
+  transition: all var(--transition-fast);
+}
+
+.header-search:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+  width: 380px;
+  background: var(--bg-card);
+}
+
+.header-search input {
+  width: 100%;
+  font-size: 0.88rem;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.notification-btn-wrap {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 9px;
+  height: 9px;
+  background: var(--primary);
+  border-radius: 50%;
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+/* Page Content Base */
+.page-content {
+  flex: 1;
+  padding: 30px;
+  max-width: 1480px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.page-title h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+}
+
+.page-title p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* --- 3. DASHBOARD PAGE (CSS GRID) --- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.dashboard-sections-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.urgent-tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.urgent-task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-fast);
+}
+
+.urgent-task-item:hover {
+  border-color: var(--border-amber);
+  transform: translateX(4px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* --- 4. KANBAN BOARD (CSS GRID 4 CỘT & 3D LIFT) --- */
+.kanban-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  background: var(--bg-card);
+  padding: 16px 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+}
+
+.kanban-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.kanban-board-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.kanban-column {
+  background: var(--bg-subtle);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 240px);
+  min-height: 520px;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.kanban-column.drag-over {
+  border-color: var(--primary);
+  background: rgba(6, 182, 212, 0.08);
+  box-shadow: 0 0 16px var(--primary-glow);
+}
+
+.kanban-column-header {
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.column-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.column-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+.column-dot.todo { background: var(--primary); }
+.column-dot.doing { background: var(--primary); }
+.column-dot.done { background: var(--success); }
+.column-dot.backlog { background: var(--text-light); }
+
+.column-count {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+
+.kanban-cards-list {
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.task-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  cursor: grab;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  position: relative;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.task-card:hover {
+  transform: translate3d(0, -4px, 6px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-amber);
+}
+
+.task-card.dragging {
+  opacity: 0.4;
+  cursor: grabbing;
+}
+
+.task-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.task-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 6px;
+  line-height: 1.35;
+}
+
+.task-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.task-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-light);
+  padding-top: 10px;
+}
+
+.task-deadline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.task-deadline.urgent {
+  color: var(--primary);
+  font-weight: 700;
+}
+body.dark-theme .task-deadline.urgent {
+  color: #22d3ee;
+}
+
+/* --- 5. TASK DETAIL & COMMENTS PAGE (`task-detail.html`) --- */
+.task-detail-grid {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr;
+  gap: 26px;
+}
+
+.checklist-box {
+  background: var(--bg-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin: 18px 0;
+  border: 1px solid var(--border-color);
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border-color);
+  font-size: 0.9rem;
+}
+.checklist-item:last-child {
+  border-bottom: none;
+}
+.checklist-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.comments-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.comment-bubble {
+  display: flex;
+  gap: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.comment-bubble-body h5 {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comment-bubble-body p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* --- 6. GANTT CHART TIMELINE --- */
+.gantt-container {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  overflow-x: auto;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.gantt-header {
+  display: grid;
+  grid-template-columns: 240px repeat(14, minmax(48px, 1fr));
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 12px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.gantt-row {
+  display: grid;
+  grid-template-columns: 240px repeat(14, minmax(48px, 1fr));
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
+}
+
+.gantt-task-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 14px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.gantt-bar-track {
+  grid-column: 2 / -1;
+  position: relative;
+  height: 28px;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-full);
+}
+
+.gantt-bar {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  background: var(--primary-gradient);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  box-shadow: 0 2px 8px var(--primary-glow);
+  cursor: pointer;
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+
+.gantt-bar:hover {
+  transform: scaleY(1.1);
+  filter: brightness(1.15);
+}
+
+/* --- 7. CALENDAR VIEW GRID 7 CỘT (`calendar.html`) --- */
+.calendar-grid-wrap {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.calendar-days-head {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--primary);
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border-cyan);
+}
+body.dark-theme .calendar-days-head {
+  color: #22d3ee;
+}
+
+.calendar-month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.calendar-cell {
+  min-height: 110px;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-fast);
+}
+
+.calendar-cell:hover {
+  border-color: var(--border-amber);
+  background: var(--bg-card);
+}
+
+.calendar-cell.today {
+  border: 2px solid var(--primary);
+  background: rgba(6, 182, 212, 0.08);
+}
+
+.calendar-cell-date {
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.calendar-task-chip {
+  background: var(--primary-gradient);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform var(--transition-fast);
+}
+.calendar-task-chip:hover {
+  transform: translate3d(0, -2px, 0);
+  filter: brightness(1.15);
+}
+
+/* --- 8. RESOURCE ALLOCATION HEATMAP (`resources.html`) --- */
+.heatmap-container {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+}
+
+.resource-overload-banner {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.resource-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.resource-table th, .resource-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.resource-table th {
+  font-weight: 800;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+}
+
+.resource-table tr:hover td {
+  background: var(--bg-subtle);
+}
+
+/* --- 9. MEMBERS 3D GRID (`members.html`) --- */
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 26px;
+}
+
+.member-avatar-box {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.member-status-indicator {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--success);
+  border: 2px solid var(--bg-card);
+}
+
+/* --- 10. AUTH & LOGIN PAGE (`login.html`) --- */
+.auth-page-body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 20%, rgba(6, 182, 212, 0.2) 0%, rgba(29, 19, 12, 0.95) 75%), #140d08;
+  padding: 24px;
+  position: relative;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 460px;
+  background: rgba(31, 20, 14, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-cyan);
+  border-radius: var(--radius-xl);
+  padding: 36px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 25px var(--primary-glow);
+  color: #fff;
+  transform: translate3d(0, 0, 0);
+  transition: transform var(--transition-3d);
+}
+
+.auth-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-cyan);
+  margin-bottom: 24px;
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--brown-200);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.auth-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+/* Quick Login Pills */
+.quick-login-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--border-color);
+}
+
+/* --- 11. RESPONSIVE BREAKPOINTS (MOBILE FIRST) --- */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 240px;
+  }
+
+  .hero-content-wrapper {
+    grid-template-columns: 1fr 1fr;
+    padding: 32px;
+  }
+  .hero-side-metrics {
+    display: none;
+  }
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .dashboard-sections-grid,
+  .task-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kanban-board-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .calendar-month-grid {
+    gap: 4px;
+  }
+
+  .calendar-cell {
+    min-height: 85px;
+  }
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 768px) {
+  .hero-lac-hong {
+    min-height: auto;
+  }
+
+  .hero-content-wrapper {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 26px 18px;
+    gap: 24px;
+  }
+
+  .hero-subtitle {
+    justify-content: center;
+  }
+
+  .hero-title {
+    font-size: 2.1rem;
+  }
+
+  .hero-desc {
+    margin: 0 auto;
+  }
+
+  .hero-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-chim-lac-showcase {
+    order: -1;
+  }
+
+  .chim-lac-figure {
+    max-width: 250px;
+  }
+
+  .app-sidebar {
+    transform: translate3d(-100%, 0, 0);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .app-sidebar.mobile-open {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .app-main {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .menu-toggle-btn {
+    display: block;
+  }
+
+  .page-content {
+    padding: 18px;
+  }
+
+  .header-search {
+    display: none;
+  }
+
+  .kanban-board-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .members-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-month-grid {
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .calendar-cell {
+    min-height: 60px;
+    padding: 4px;
+  }
+
+  .calendar-task-chip {
+    font-size: 0.65rem;
+    padding: 2px 4px;
+  }
+}
+
+/* Small Mobile (< 480px) */
+@media (max-width: 480px) {
+  .page-title h1 {
+    font-size: 1.4rem;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    font-size: 0.82rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

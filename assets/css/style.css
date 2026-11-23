@@ -1,0 +1,1372 @@
+/* ===================================================================
+   PROTASK - MODERN MINIMALIST DESIGN SYSTEM & GLOBAL STYLES
+   Học phần: Thiết kế Web (111101) - Đại học Lạc Hồng (LHU)
+   Chủ đề: Hệ thống Quản trị Dự án & Công việc Thông minh (Phân hệ 2.3.4)
+   Phong cách: Tối giản hiện đại (Obsidian Slate & Electric Cyan / Neon Teal)
+   Lấy cảm hứng từ: Animated Cards Opening & Interactive Lamp UI
+   =================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* --- 1. CSS VARIABLES (MODERN MINIMALIST SLATE & CYAN PALETTE) --- */
+:root {
+  /* Brand Primary: ELECTRIC CYAN & LUMINOUS TEAL */
+  --primary: #06b6d4;
+  --primary-hover: #22d3ee;
+  --primary-dark: #0891b2;
+  --primary-light: #cffafe;
+  --primary-glow: rgba(6, 182, 212, 0.35);
+  --primary-gradient: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 50%, #3b82f6 100%);
+  --cyan-badge-bg: rgba(6, 182, 212, 0.12);
+  --cyan-badge-border: rgba(6, 182, 212, 0.3);
+
+  /* Secondary Accents */
+  --accent-teal: #14b8a6;
+  --accent-blue: #3b82f6;
+  --accent-indigo: #6366f1;
+  --accent-emerald: #10b981;
+  
+  /* Semantic Status Colors */
+  --success: #10b981;
+  --success-bg: rgba(16, 185, 129, 0.12);
+  --success-border: rgba(16, 185, 129, 0.3);
+
+  --warning: #f59e0b;
+  --warning-bg: rgba(245, 158, 11, 0.12);
+  --warning-border: rgba(245, 158, 11, 0.3);
+
+  --danger: #f43f5e;
+  --danger-bg: rgba(244, 63, 94, 0.12);
+  --danger-border: rgba(244, 63, 94, 0.3);
+
+  --info: #0ea5e9;
+  --info-bg: rgba(14, 165, 233, 0.12);
+  --info-border: rgba(14, 165, 233, 0.3);
+
+  /* MODERN DARK SLATE PALETTE (DEFAULT - TỐI GIẢN, BỀ THẾ, HIỆN ĐẠI) */
+  --bg-page: #0b0f17;
+  --bg-sidebar: #0e1422;
+  --bg-header: rgba(14, 20, 34, 0.85);
+  --bg-card: #131b2e;
+  --bg-card-rgb: 19, 27, 46;
+  --bg-card-hover: #19243d;
+  --bg-subtle: #1a233a;
+  --bg-hover: #222f4c;
+
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-light: #64748b;
+  --text-white: #ffffff;
+
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.04);
+  --border-focus: rgba(6, 182, 212, 0.5);
+  --border-cyan: rgba(6, 182, 212, 0.35);
+
+  /* Clean Soft Elevation Shadows (Không bị nghiêng ngả) */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.5), 0 0 1px rgba(6, 182, 212, 0.2);
+  --shadow-xl: 0 20px 35px -5px rgba(0, 0, 0, 0.6), 0 0 20px rgba(6, 182, 212, 0.15);
+  --shadow-cyan-glow: 0 0 25px rgba(6, 182, 212, 0.35);
+
+  /* Spacing & Radii */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Performance Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  --sidebar-width: 260px;
+  --header-height: 70px;
+}
+
+/* Light Mode Overrides (Nếu người dùng đổi sang giao diện sáng tinh tế) */
+:root.light-theme,
+body.light-theme {
+  --bg-page: #f1f5f9;
+  --bg-sidebar: #ffffff;
+  --bg-header: rgba(255, 255, 255, 0.96);
+  --bg-card: #ffffff;
+  --bg-card-rgb: 255, 255, 255;
+  --bg-card-hover: #f8fafc;
+  --bg-subtle: #f8fafc;
+  --bg-hover: #e2e8f0;
+
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-light: #64748b;
+
+  --border-color: #cbd5e1;
+  --border-light: #e2e8f0;
+  --border-focus: #0284c7;
+  --border-cyan: rgba(2, 132, 199, 0.45);
+
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.1);
+  --shadow-xl: 0 20px 35px rgba(15, 23, 42, 0.12);
+}
+
+/* Light Theme Element Customizations */
+body.light-theme .app-sidebar {
+  background-color: #ffffff;
+  border-right-color: #e2e8f0;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.03);
+}
+
+body.light-theme .sidebar-header {
+  background: #ffffff;
+  border-bottom-color: #e2e8f0;
+}
+
+body.light-theme .brand-logo {
+  color: #0f172a;
+}
+
+body.light-theme .nav-item {
+  color: #475569;
+}
+
+body.light-theme .nav-item:hover {
+  background: #f1f5f9;
+  color: #0284c7;
+}
+
+body.light-theme .nav-item.active {
+  background: rgba(6, 182, 212, 0.12);
+  color: #0284c7;
+  font-weight: 700;
+}
+
+body.light-theme .nav-section-title {
+  color: #94a3b8;
+}
+
+body.light-theme .sidebar-footer {
+  border-top-color: #e2e8f0;
+}
+
+body.light-theme .sidebar-footer h5 {
+  color: #0f172a;
+}
+
+body.light-theme .app-header {
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom-color: #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+body.light-theme .header-search input {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+body.light-theme .header-search input::placeholder {
+  color: #94a3b8;
+}
+
+body.light-theme .card-clean,
+body.light-theme .stat-card,
+body.light-theme .task-card,
+body.light-theme .widget-box {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+
+body.light-theme .card-clean h2,
+body.light-theme .card-clean h3,
+body.light-theme .card-clean h4,
+body.light-theme .stat-card h2,
+body.light-theme .stat-card h3,
+body.light-theme .stat-card h4,
+body.light-theme .task-card h4,
+body.light-theme .widget-box h3 {
+  color: #0f172a;
+}
+
+body.light-theme .hero-animated-cards {
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+  border-color: #cbd5e1;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.07);
+}
+
+body.light-theme .hero-module-title {
+  color: #0f172a;
+}
+
+body.light-theme .hero-module-desc {
+  color: #475569;
+}
+
+body.light-theme .opening-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05);
+}
+
+body.light-theme .opening-card-title {
+  color: #0f172a;
+}
+
+body.light-theme .opening-card.active {
+  background: linear-gradient(145deg, #e0f2fe 0%, #f0fdfa 100%);
+  border-color: #0284c7;
+  box-shadow: 0 10px 25px rgba(2, 132, 199, 0.18);
+}
+
+body.light-theme .opening-card.active .opening-card-title {
+  color: #0369a1;
+}
+
+body.light-theme .kanban-column {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+body.light-theme .kanban-column-header h3 {
+  color: #0f172a;
+}
+
+body.light-theme .resource-table th {
+  background: #f8fafc;
+  color: #475569;
+  border-color: #e2e8f0;
+}
+
+body.light-theme .resource-table td {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #e2e8f0;
+}
+
+body.light-theme .resource-table tr:hover td {
+  background: #f1f5f9;
+}
+
+body.light-theme .calendar-cell {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  color: #0f172a;
+}
+
+body.light-theme .calendar-cell.other-month {
+  background: #f8fafc;
+  color: #94a3b8;
+}
+
+body.light-theme .calendar-day-header {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #e2e8f0;
+}
+
+body.light-theme .gantt-chart-wrapper {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+
+body.light-theme .gantt-task-name {
+  color: #0f172a;
+}
+
+body.light-theme .form-control,
+body.light-theme .form-control-modern,
+body.light-theme select,
+body.light-theme textarea {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+body.light-theme .form-control:focus,
+body.light-theme .form-control-modern:focus,
+body.light-theme select:focus,
+body.light-theme textarea:focus {
+  background: #ffffff;
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+body.light-theme .auth-modern-card {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: #cbd5e1;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15), 0 0 25px rgba(2, 132, 199, 0.1);
+}
+
+body.light-theme .auth-title {
+  color: #0f172a;
+}
+
+body.light-theme .modal-dialog {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.2);
+}
+
+body.light-theme .modal-header h3 {
+  color: #0f172a;
+}
+
+body.light-theme .btn-secondary {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+body.light-theme .btn-secondary:hover {
+  background: #e2e8f0;
+  border-color: #0284c7;
+  color: #0284c7;
+}
+
+/* --- 2. BASE & RESET --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 15px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* --- 3. SMOOTH PAGE TRANSITIONS (CHUYỂN TRANG MƯỢT MÀ NHƯ VIDEO) --- */
+@keyframes pageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.app-container,
+.auth-page-container {
+  animation: pageEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+body.page-leaving {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+/* --- 4. TYPOGRAPHY --- */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-main);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: 2.2rem; }
+h2 { font-size: 1.7rem; }
+h3 { font-size: 1.35rem; }
+h4 { font-size: 1.1rem; }
+h5 { font-size: 0.95rem; }
+h6 { font-size: 0.85rem; }
+
+p {
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--primary-hover);
+}
+
+code, kbd, samp, pre {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+}
+
+/* --- 5. LOGO CHIM LẠC LHU MINIMALIST --- */
+.brand-chim-lac {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.6));
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+
+.brand-logo:hover .brand-chim-lac {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 16px rgba(6, 182, 212, 0.9));
+}
+
+.brand-badge {
+  background: var(--cyan-badge-bg);
+  color: var(--primary);
+  border: 1px solid var(--cyan-badge-border);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.5px;
+}
+
+/* --- 6. BUTTONS & UI CONTROLS (TỐI GIẢN, TINH TẾ) --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-primary,
+.btn-cyan {
+  background: var(--primary-gradient);
+  color: #0b0f17;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+}
+
+.btn-primary:hover,
+.btn-cyan:hover {
+  background: linear-gradient(135deg, #22d3ee 0%, #38bdf8 100%);
+  color: #0b0f17;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+}
+
+.btn-secondary {
+  background: var(--bg-subtle);
+  color: var(--text-main);
+  border-color: var(--border-color);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-cyan);
+  color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--border-cyan);
+  color: var(--primary);
+}
+
+.btn-outline:hover {
+  background: var(--cyan-badge-bg);
+  border-color: var(--primary);
+}
+
+.btn-icon {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-icon:hover {
+  background: var(--bg-hover);
+  color: var(--primary);
+  border-color: var(--border-cyan);
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+/* --- 7. CARDS (CLEAN & FLAT, NO DISORIENTING 3D TILT) --- */
+.card-clean,
+.stat-card,
+.task-card,
+.widget-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: border-color var(--transition-normal), box-shadow var(--transition-normal), transform var(--transition-normal);
+  position: relative;
+}
+
+.card-clean:hover,
+.stat-card:hover,
+.task-card:hover {
+  border-color: var(--border-cyan);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.badge-cyan { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+.badge-teal { background: rgba(20, 184, 166, 0.15); color: #2dd4bf; border: 1px solid rgba(20, 184, 166, 0.3); }
+.badge-blue { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+.badge-high { background: rgba(244, 63, 94, 0.15); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.3); }
+.badge-medium { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.badge-low { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+/* Avatars */
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: #fff;
+  background: var(--primary-dark);
+  border: 2px solid var(--bg-card);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===================================================================
+   8. HERO BANNER: ANIMATED CARDS OPENING (VIDEO 1 INSPIRATION)
+   Showcase phân hệ quản lý dự án với hiệu ứng lật mở mượt mà
+   =================================================================== */
+.hero-animated-cards {
+  position: relative;
+  background: linear-gradient(135deg, rgba(14, 20, 34, 0.95) 0%, rgba(11, 15, 23, 0.98) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  margin-bottom: 28px;
+  padding: 36px 40px;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+}
+
+.hero-ambient-glow {
+  position: absolute;
+  top: -30%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.18) 0%, rgba(14, 165, 233, 0.05) 50%, transparent 70%);
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-split-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1.35fr;
+  gap: 36px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Left: Active Module Details */
+.hero-module-info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hero-module-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.hero-module-tag::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 8px var(--primary);
+}
+
+.hero-module-title {
+  font-size: 2.3rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #fff;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.hero-module-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  max-width: 480px;
+  transition: opacity 0.25s ease;
+}
+
+.hero-module-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* Right: Animated Cards Slider (Cards Opening) */
+.hero-cards-carousel {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 4px;
+  scrollbar-width: none;
+}
+
+.hero-cards-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.opening-card {
+  min-width: 175px;
+  height: 250px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+
+.opening-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(6, 182, 212, 0.12) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.opening-card:hover {
+  border-color: var(--border-cyan);
+  transform: translateY(-6px);
+  box-shadow: 0 14px 28px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(6, 182, 212, 0.25);
+}
+
+.opening-card.active {
+  min-width: 220px;
+  border-color: var(--primary);
+  background: linear-gradient(145deg, #131c30 0%, #17243e 100%);
+  box-shadow: 0 16px 32px -4px rgba(0, 0, 0, 0.6), 0 0 25px rgba(6, 182, 212, 0.35);
+}
+
+.opening-card.active::before {
+  opacity: 1;
+}
+
+.opening-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: var(--primary);
+  transition: all var(--transition-fast);
+}
+
+.opening-card.active .opening-card-icon {
+  background: var(--primary-gradient);
+  color: #0b0f17;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
+}
+
+.opening-card-meta {
+  z-index: 2;
+}
+
+.opening-card-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-light);
+  margin-bottom: 4px;
+}
+
+.opening-card.active .opening-card-num {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.opening-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.opening-card-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Bottom Controls (Progress line & arrows) */
+.hero-bottom-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 22px;
+  border-top: 1px solid var(--border-color);
+  position: relative;
+  z-index: 2;
+}
+
+.hero-slider-nav-btns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-nav-arrow {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 0.9rem;
+}
+
+.hero-nav-arrow:hover {
+  background: var(--primary);
+  color: #0b0f17;
+  border-color: var(--primary);
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.5);
+}
+
+.hero-progress-track {
+  flex: 1;
+  max-width: 240px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  margin: 0 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-progress-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 20%;
+  background: var(--primary-gradient);
+  border-radius: var(--radius-full);
+  transition: width 0.35s ease;
+  box-shadow: 0 0 8px var(--primary);
+}
+
+.hero-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.hero-counter strong {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+/* ===================================================================
+   9. INTERACTIVE LAMP LOGIN / SIGNUP (VIDEO 2 INSPIRATION)
+   Bố cục đèn bàn tương tác bên trái & Thẻ đăng nhập tinh gọn bên phải
+   =================================================================== */
+.auth-page-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 35% 45%, #0f172a 0%, #070a10 75%, #030508 100%);
+  position: relative;
+  padding: 30px 20px;
+  overflow: hidden;
+}
+
+/* Ambient glow & light beam from lamp */
+.lamp-ambient-glow {
+  position: absolute;
+  top: 15%;
+  left: 10%;
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.18) 0%, rgba(14, 165, 233, 0.06) 45%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+body[data-lamp-on="false"] .lamp-ambient-glow {
+  opacity: 0.05;
+}
+
+/* Two-column layout */
+.auth-lamp-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  max-width: 960px;
+  width: 100%;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Left: Interactive Desk Lamp */
+.lamp-showcase-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.desk-lamp-svg-wrap {
+  width: 280px;
+  height: 380px;
+  position: relative;
+  cursor: pointer;
+}
+
+.lamp-pull-string-interactive {
+  cursor: pointer;
+  transform-origin: top center;
+  transition: transform 0.2s ease;
+}
+
+.lamp-pull-string-interactive:hover {
+  transform: scaleY(1.08);
+}
+
+.lamp-pull-string-interactive:active {
+  transform: scaleY(1.22);
+}
+
+.lamp-hint-pill {
+  margin-top: 12px;
+  background: rgba(14, 20, 34, 0.7);
+  border: 1px solid var(--border-cyan);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.76rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(8px);
+  user-select: none;
+  cursor: pointer;
+}
+
+/* Right: Modern Sleek Login Card - Interactive Lamp Reveal (Theo Video 2) */
+.auth-modern-card {
+  background: rgba(17, 24, 39, 0.92);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-xl);
+  padding: 38px 36px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(6, 182, 212, 0.15);
+  position: relative;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.45s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+/* KHI ĐÈN TẮT (data-lamp-on="false"): ẨN HOÀN TOÀN THẺ ĐĂNG NHẬP TRONG BÓNG TỐI */
+body[data-lamp-on="false"] .auth-modern-card {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(28px) scale(0.95);
+  filter: blur(14px) brightness(0.2);
+}
+
+/* KHI ĐÈN BẬT (data-lamp-on="true"): ÁNH SÁNG CHIẾU XUỐNG VÀ THẺ LỘ RA MƯỢT MÀ */
+body[data-lamp-on="true"] .auth-modern-card {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+  filter: blur(0) brightness(1);
+}
+
+/* Hiệu ứng phòng tối khi đèn tắt */
+body[data-lamp-on="false"] .auth-page-container {
+  background: radial-gradient(circle at 35% 45%, #050811 0%, #020408 75%, #010204 100%);
+  transition: background 0.6s ease;
+}
+
+body[data-lamp-on="true"] .auth-page-container {
+  background: radial-gradient(circle at 35% 45%, #0f172a 0%, #070a10 75%, #030508 100%);
+  transition: background 0.6s ease;
+}
+
+/* Hiệu ứng nhịp tim mời người dùng kéo dây đèn khi đèn đang tắt */
+@keyframes lampPullHintPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 3px rgba(6, 182, 212, 0.4));
+    transform: translateY(0);
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(6, 182, 212, 0.95));
+    transform: translateY(4px);
+  }
+}
+
+body[data-lamp-on="false"] .lamp-pull-string-interactive {
+  animation: lampPullHintPulse 2s infinite ease-in-out;
+}
+
+body[data-lamp-on="false"] .lamp-hint-pill {
+  animation: pulseHintPill 2s infinite ease-in-out;
+  border-color: rgba(6, 182, 212, 0.6);
+  background: rgba(6, 182, 212, 0.12);
+}
+
+@keyframes pulseHintPill {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(6, 182, 212, 0); }
+  50% { transform: scale(1.04); box-shadow: 0 0 15px rgba(6, 182, 212, 0.35); }
+}
+
+.auth-modern-card:hover {
+  border-color: rgba(6, 182, 212, 0.35);
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.9), 0 0 35px rgba(6, 182, 212, 0.25);
+}
+
+.auth-header-block {
+  margin-bottom: 24px;
+}
+
+.auth-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.auth-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.auth-subtitle {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
+
+/* Modern Tab Switcher (Pill Style) */
+.auth-pill-tabs {
+  display: flex;
+  background: var(--bg-subtle);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  margin-bottom: 24px;
+  border: 1px solid var(--border-color);
+}
+
+.auth-pill-tab {
+  flex: 1;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.auth-pill-tab.active {
+  background: var(--bg-card);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Modern Input Controls with SVG Icons */
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.input-icon-left {
+  position: absolute;
+  left: 14px;
+  color: var(--text-light);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon-right {
+  position: absolute;
+  right: 14px;
+  color: var(--text-light);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  transition: color var(--transition-fast);
+}
+
+.input-icon-right:hover {
+  color: var(--primary);
+}
+
+.form-control-modern {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  background: rgba(14, 20, 34, 0.8);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: all var(--transition-fast);
+}
+
+.form-control-modern:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+  background: rgba(14, 20, 34, 0.95);
+}
+
+.form-control-modern::placeholder {
+  color: var(--text-light);
+}
+
+/* Success Card Animation (Frame 445 in Video 2) */
+.auth-success-state {
+  display: none;
+  text-align: center;
+  padding: 30px 10px;
+}
+
+.auth-success-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.15);
+  border: 2px solid var(--success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+  color: var(--success);
+  font-size: 1.8rem;
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.35);
+  animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Test Accounts Selector for 5 Members */
+.auth-test-accounts-box {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--border-color);
+}
+
+.auth-test-accounts-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+}
+
+.credential-quick-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.credential-item-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  font-size: 0.76rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.credential-item-btn:hover {
+  border-color: var(--primary);
+  background: var(--bg-hover);
+  color: #fff;
+  transform: translateX(3px);
+}
+
+.credential-item-btn code {
+  color: var(--primary);
+}
+
+/* Toast Container */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-cyan);
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+  color: #fff;
+  font-size: 0.86rem;
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.toast-success { border-left: 4px solid var(--success); }
+.toast-danger { border-left: 4px solid var(--danger); }
+.toast-warning { border-left: 4px solid var(--warning); }
+.toast-info { border-left: 4px solid var(--primary); }
+
+/* Modal Component System */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 16, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 20px;
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-dialog {
+  max-width: 580px;
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  box-shadow: var(--shadow-xl);
+  transform: translateY(20px) scale(0.96);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-backdrop.open .modal-dialog {
+  transform: translateY(0) scale(1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.modal-body {
+  margin-bottom: 24px;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Form Controls Standard */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.form-control,
+select.form-control,
+textarea.form-control {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.88rem;
+  transition: all var(--transition-fast);
+}
+
+.form-control:focus,
+select.form-control:focus,
+textarea.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .auth-lamp-wrapper {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .desk-lamp-svg-wrap {
+    width: 200px;
+    height: 250px;
+  }
+  .hero-split-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
