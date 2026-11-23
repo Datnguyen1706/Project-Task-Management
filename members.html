@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Quản lý nhân sự và phân bổ nguồn lực dự án cho nhóm 5 thành viên - PROTASK LHU">
+  <meta name="author" content="LHU Software Engineering Team">
+  <title>PROTASK - Quản lý Thành viên (3D Card Flip & Phân Bổ Kỹ Năng)</title>
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- SIDEBAR NAVIGATION (10 TRANG CHUẨN) -->
+    <aside class="app-sidebar" aria-label="Thanh điều hướng chính">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <img src="assets/images/chim_lac_gold.png" alt="Chim Lạc Origami LHU" class="brand-chim-lac">
+          <span style="letter-spacing:-0.5px;">PROTASK</span>
+          <span class="brand-badge">LHU</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Tổng quan & Điều hành</div>
+        <a href="index.html" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span>Trang chủ (Dashboard)</span>
+        </a>
+        <a href="kanban.html" class="nav-item">
+          <span class="nav-icon">📋</span>
+          <span>Bảng việc (Kanban)</span>
+          <span class="nav-count" id="sidebar-task-count">12</span>
+        </a>
+        <a href="task-detail.html" class="nav-item">
+          <span class="nav-icon">🔍</span>
+          <span>Chi tiết Task & Thảo luận</span>
+        </a>
+        <a href="gantt.html" class="nav-item">
+          <span class="nav-icon">📈</span>
+          <span>Lịch trình (Gantt)</span>
+        </a>
+        <a href="calendar.html" class="nav-item">
+          <span class="nav-icon">📅</span>
+          <span>Lịch công việc (Calendar)</span>
+        </a>
+
+        <div class="nav-section-title">Tài nguyên & Hiệu suất</div>
+        <a href="resources.html" class="nav-item">
+          <span class="nav-icon">🔥</span>
+          <span>Phân bổ tài nguyên</span>
+        </a>
+        <a href="reports.html" class="nav-item">
+          <span class="nav-icon">⏱️</span>
+          <span>Báo cáo & Chấm công</span>
+        </a>
+        <a href="members.html" class="nav-item active">
+          <span class="nav-icon">👥</span>
+          <span>Quản lý thành viên</span>
+          <span class="nav-count">5</span>
+        </a>
+
+        <div class="nav-section-title">Hệ thống & Cài đặt</div>
+        <a href="settings.html" class="nav-item">
+          <span class="nav-icon">⚙️</span>
+          <span>Thông báo & Cài đặt</span>
+        </a>
+        <a href="login.html" class="nav-item">
+          <span class="nav-icon">🚪</span>
+          <span>Đăng nhập / Đổi tài khoản</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-profile" style="flex:1;">
+          <div class="avatar" style="background:#06b6d4;">NCĐ</div>
+          <div class="user-mini-info">
+            <h5>Nguyễn Chí Đạt</h5>
+            <p>Leader / Project Manager</p>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-logout-action" title="Đăng xuất khỏi tài khoản" style="background:transparent; border:none; color:var(--text-light); font-size:1.1rem; cursor:pointer; padding:6px 8px;">🚪</button>
+      </div>
+    </aside>
+
+    <!-- MAIN APP AREA -->
+    <div class="app-main">
+      
+      <!-- TOPBAR -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="menu-toggle-btn" id="mobile-menu-toggle" aria-label="Mở menu">☰</button>
+          <span class="badge badge-cyan" style="font-size:0.75rem; padding:4px 10px;">⚡ Sprint 2</span>
+          <div class="header-search">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="global-search-input" placeholder="Tìm kiếm công việc...">
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="btn-icon" id="theme-toggle-btn" title="Chuyển chế độ Sáng / Tối">🌙</button>
+          <div class="notification-btn-wrap">
+            <button class="btn-icon" id="notif-dropdown-btn" title="Xem thông báo">🔔</button>
+            <span class="notification-badge"></span>
+          </div>
+          <a href="resources.html" class="btn btn-secondary btn-sm">🔥 Xem Tải Tuần</a>
+          <button class="btn btn-cyan btn-sm" onclick="UI.openModal('add-member-modal')">
+            <span>+ Thêm Nhân Sự</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+        
+        <header class="page-header">
+          <div class="page-title">
+            <h1>Quản Lý Thành Viên & Phân Bổ Vai Trò (Scrum Roles)</h1>
+            <p>Hồ sơ năng lực 5 thành viên nhóm LHU với hiệu ứng Thẻ Lật 3D (3D Card Flip) chuẩn Tuần 5.</p>
+          </div>
+          
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-primary btn-sm" onclick="UI.openModal('add-member-modal')">
+              <span>+ Mời Thành Viên Mới</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- BANNER HƯỚNG DẪN 3D FLIP -->
+        <div style="background:var(--bg-card); border-left:4px solid var(--primary); padding:14px 20px; border-radius:var(--radius-md); margin-bottom:24px; font-size:0.85rem; color:var(--text-muted); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <div>
+            💡 <strong>Mẹo tương tác 3D:</strong> Rê chuột vào từng thẻ nhân sự bên dưới để kích hoạt hiệu ứng <strong>Lật Thẻ 180 độ 3D (Card Flip)</strong> xem chi tiết kỹ năng và tiến độ task.
+          </div>
+          <span class="badge badge-cyan">CSS 3D Transform</span>
+        </div>
+
+        <!-- LƯỚI 5 THẺ THÀNH VIÊN DẠNG 3D FLIP CARD -->
+        <section class="members-grid perspective-container" id="members-list-grid" aria-label="Danh sách thành viên nhóm">
+          <!-- Render động từ MembersController.renderMembers() -->
+        </section>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- MODAL: THÊM THÀNH VIÊN MỚI -->
+  <div class="modal-backdrop" id="add-member-modal">
+    <div class="modal-dialog card-clean">
+      <div class="modal-header">
+        <h3>👥 Thêm Thành Viên Mới Vào Nhóm Dự Án</h3>
+        <button class="btn-icon btn-sm" onclick="UI.closeModal('add-member-modal')">✕</button>
+      </div>
+      <form id="add-member-form" onsubmit="event.preventDefault(); MembersController.addNewMember(this);">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="mem-name-input">Họ và tên thành viên (*)</label>
+            <input type="text" id="mem-name-input" name="name" class="form-control" placeholder="Ví dụ: Trần Văn Nam" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="mem-role-input">Vai trò trong nhóm Scrum</label>
+            <select id="mem-role-input" name="role" class="form-control">
+              <option value="Frontend UI Specialist">Frontend UI Specialist</option>
+              <option value="UI/UX Designer">UI/UX Designer</option>
+              <option value="Data & Logic Engineer">Data & Logic Engineer</option>
+              <option value="QA & Test Engineer">QA & Test Engineer</option>
+              <option value="Full-stack Developer">Full-stack Developer</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="mem-email-input">Email trường (*)</label>
+            <input type="email" id="mem-email-input" name="email" class="form-control" placeholder="12500xxxx@lachong.edu.vn" required>
+            <span style="font-size:0.75rem; color:var(--text-light);">Bắt buộc đuôi @lachong.edu.vn hoặc @lhu.edu.vn</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="mem-skills-input">Kỹ năng chính (cách nhau dấu phẩy)</label>
+            <input type="text" id="mem-skills-input" name="skills" class="form-control" placeholder="HTML5 Semantic, CSS Grid, React, Git Flow">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="UI.closeModal('add-member-modal')">Hủy</button>
+          <button type="submit" class="btn btn-cyan">Lưu Thành Viên</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/logic.js"></script>
+  <script src="assets/js/features.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      MembersController.init();
+    });
+  </script>
+</body>
+</html>
