@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Biểu đồ nhiệt phân bổ tài nguyên và kiểm soát quá tải nhân lực - PROTASK LHU">
+  <meta name="author" content="LHU Software Engineering Team">
+  <title>PROTASK - Phân Bổ Tài Nguyên & Cảnh Báo Quá Tải (Resource Heatmap)</title>
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- SIDEBAR NAVIGATION (10 TRANG CHUẨN) -->
+    <aside class="app-sidebar" aria-label="Thanh điều hướng chính">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <img src="assets/images/chim_lac_gold.png" alt="Chim Lạc Origami LHU" class="brand-chim-lac">
+          <span style="letter-spacing:-0.5px;">PROTASK</span>
+          <span class="brand-badge">LHU</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Tổng quan & Điều hành</div>
+        <a href="index.html" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span>Trang chủ (Dashboard)</span>
+        </a>
+        <a href="kanban.html" class="nav-item">
+          <span class="nav-icon">📋</span>
+          <span>Bảng việc (Kanban)</span>
+          <span class="nav-count" id="sidebar-task-count">12</span>
+        </a>
+        <a href="task-detail.html" class="nav-item">
+          <span class="nav-icon">🔍</span>
+          <span>Chi tiết Task & Thảo luận</span>
+        </a>
+        <a href="gantt.html" class="nav-item">
+          <span class="nav-icon">📈</span>
+          <span>Lịch trình (Gantt)</span>
+        </a>
+        <a href="calendar.html" class="nav-item">
+          <span class="nav-icon">📅</span>
+          <span>Lịch công việc (Calendar)</span>
+        </a>
+
+        <div class="nav-section-title">Tài nguyên & Hiệu suất</div>
+        <a href="resources.html" class="nav-item active">
+          <span class="nav-icon">🔥</span>
+          <span>Phân bổ tài nguyên</span>
+        </a>
+        <a href="reports.html" class="nav-item">
+          <span class="nav-icon">⏱️</span>
+          <span>Báo cáo & Chấm công</span>
+        </a>
+        <a href="members.html" class="nav-item">
+          <span class="nav-icon">👥</span>
+          <span>Quản lý thành viên</span>
+          <span class="nav-count">5</span>
+        </a>
+
+        <div class="nav-section-title">Hệ thống & Cài đặt</div>
+        <a href="settings.html" class="nav-item">
+          <span class="nav-icon">⚙️</span>
+          <span>Thông báo & Cài đặt</span>
+        </a>
+        <a href="login.html" class="nav-item">
+          <span class="nav-icon">🚪</span>
+          <span>Đăng nhập / Đổi tài khoản</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-profile" style="flex:1;">
+          <div class="avatar" style="background:#06b6d4;">NCĐ</div>
+          <div class="user-mini-info">
+            <h5>Nguyễn Chí Đạt</h5>
+            <p>Leader / Project Manager</p>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-logout-action" title="Đăng xuất khỏi tài khoản" style="background:transparent; border:none; color:var(--text-light); font-size:1.1rem; cursor:pointer; padding:6px 8px;">🚪</button>
+      </div>
+    </aside>
+
+    <!-- MAIN APP AREA -->
+    <div class="app-main">
+      
+      <!-- TOPBAR -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="menu-toggle-btn" id="mobile-menu-toggle" aria-label="Mở menu">☰</button>
+          <span class="badge badge-cyan" style="font-size:0.75rem; padding:4px 10px;">⚡ Sprint 2</span>
+          <div class="header-search">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="global-search-input" placeholder="Tìm kiếm công việc...">
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="btn-icon" id="theme-toggle-btn" title="Chuyển chế độ Sáng / Tối">🌙</button>
+          <div class="notification-btn-wrap">
+            <button class="btn-icon" id="notif-dropdown-btn" title="Xem thông báo">🔔</button>
+            <span class="notification-badge"></span>
+          </div>
+          <a href="reports.html" class="btn btn-secondary btn-sm">⏱️ Chấm Công & Báo Cáo</a>
+          <a href="kanban.html" class="btn btn-cyan btn-sm">+ Điều Phối Task</a>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+        
+        <header class="page-header">
+          <div class="page-title">
+            <h1>Phân Bổ Tài Nguyên & Biểu Đồ Nhiệt (Resource Heatmap)</h1>
+            <p>Kiểm soát tải công việc của 5 thành viên trong Sprint 2. Tự động kích hoạt Cảnh Báo Đỏ nếu vượt 40h/tuần.</p>
+          </div>
+          
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="badge badge-cyan">Hạn mức tiêu chuẩn: 30 - 40h / tuần</span>
+          </div>
+        </header>
+
+        <!-- BANNER CẢNH BÁO ĐỎ NẾU CÓ THÀNH VIÊN QUÁ TẢI (RENDER BẰNG JS) -->
+        <div class="resource-overload-banner" id="resource-overload-alert">
+          <!-- Render tự động qua ResourceController.renderHeatmap() -->
+        </div>
+
+        <!-- THỐNG KÊ NHANH TẢI NGUYÊN -->
+        <section class="stats-grid perspective-container" style="margin-bottom:24px;">
+          <article class="stat-card stat-cyan card-clean">
+            <div class="stat-icon">👥</div>
+            <div class="stat-info">
+              <h4>Nhân Lực Hiện Có</h4>
+              <div class="stat-value">5 Lập trình viên</div>
+              <div class="stat-desc">Đầy đủ các vai trò Scrum</div>
+            </div>
+          </article>
+
+          <article class="stat-card stat-cyan card-clean">
+            <div class="stat-icon">🔥</div>
+            <div class="stat-info">
+              <h4>Tổng Giờ Phân Bổ</h4>
+              <div class="stat-value">165 giờ</div>
+              <div class="stat-desc">Toàn Sprint 2 (14 ngày)</div>
+            </div>
+          </article>
+
+          <article class="stat-card stat-cyan card-clean">
+            <div class="stat-icon rose">⚠️</div>
+            <div class="stat-info">
+              <h4>Thành Viên Quá Tải</h4>
+              <div class="stat-value">1 Người (>40h)</div>
+              <div class="stat-desc">Nguyễn Chí Đạt (42h/tuần)</div>
+            </div>
+          </article>
+        </section>
+
+        <!-- BẢNG BIỂU ĐỒ NHIỆT (RESOURCE ALLOCATION TABLE) -->
+        <section class="heatmap-container card-clean" aria-label="Bảng phân bổ chi tiết">
+          <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:16px; color:var(--primary);">
+            Bảng Phân Bổ Giờ Làm Chi Tiết (Thứ 2 đến Thứ 6)
+          </h3>
+
+          <table class="resource-table">
+            <thead>
+              <tr>
+                <th>Thành viên</th>
+                <th>Tổng task</th>
+                <th>Thứ Hai</th>
+                <th>Thứ Ba</th>
+                <th>Thứ Tư</th>
+                <th>Thứ Năm</th>
+                <th>Thứ Sáu</th>
+                <th>Trạng thái tuần</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="resource-heatmap-body">
+              <!-- Render động bằng ResourceController -->
+            </tbody>
+          </table>
+        </section>
+
+      </main>
+
+    </div>
+  </div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/logic.js"></script>
+  <script src="assets/js/features.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      ResourceController.init();
+    });
+  </script>
+</body>
+</html>

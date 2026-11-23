@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Trung tâm thông báo nhắc việc tự động và cấu hình hệ thống - PROTASK LHU">
+  <meta name="author" content="LHU Software Engineering Team">
+  <title>PROTASK - Cài Đặt & Thông Báo Tự Động (Push Notifications)</title>
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- SIDEBAR NAVIGATION (10 TRANG CHUẨN) -->
+    <aside class="app-sidebar" aria-label="Thanh điều hướng chính">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <img src="assets/images/chim_lac_gold.png" alt="Chim Lạc Origami LHU" class="brand-chim-lac">
+          <span style="letter-spacing:-0.5px;">PROTASK</span>
+          <span class="brand-badge">LHU</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Tổng quan & Điều hành</div>
+        <a href="index.html" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span>Trang chủ (Dashboard)</span>
+        </a>
+        <a href="kanban.html" class="nav-item">
+          <span class="nav-icon">📋</span>
+          <span>Bảng việc (Kanban)</span>
+          <span class="nav-count" id="sidebar-task-count">12</span>
+        </a>
+        <a href="task-detail.html" class="nav-item">
+          <span class="nav-icon">🔍</span>
+          <span>Chi tiết Task & Thảo luận</span>
+        </a>
+        <a href="gantt.html" class="nav-item">
+          <span class="nav-icon">📈</span>
+          <span>Lịch trình (Gantt)</span>
+        </a>
+        <a href="calendar.html" class="nav-item">
+          <span class="nav-icon">📅</span>
+          <span>Lịch công việc (Calendar)</span>
+        </a>
+
+        <div class="nav-section-title">Tài nguyên & Hiệu suất</div>
+        <a href="resources.html" class="nav-item">
+          <span class="nav-icon">🔥</span>
+          <span>Phân bổ tài nguyên</span>
+        </a>
+        <a href="reports.html" class="nav-item">
+          <span class="nav-icon">⏱️</span>
+          <span>Báo cáo & Chấm công</span>
+        </a>
+        <a href="members.html" class="nav-item">
+          <span class="nav-icon">👥</span>
+          <span>Quản lý thành viên</span>
+          <span class="nav-count">5</span>
+        </a>
+
+        <div class="nav-section-title">Hệ thống & Cài đặt</div>
+        <a href="settings.html" class="nav-item active">
+          <span class="nav-icon">⚙️</span>
+          <span>Thông báo & Cài đặt</span>
+        </a>
+        <a href="login.html" class="nav-item">
+          <span class="nav-icon">🚪</span>
+          <span>Đăng nhập / Đổi tài khoản</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-profile" style="flex:1;">
+          <div class="avatar" style="background:#06b6d4;">NCĐ</div>
+          <div class="user-mini-info">
+            <h5>Nguyễn Chí Đạt</h5>
+            <p>Leader / Project Manager</p>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-logout-action" title="Đăng xuất khỏi tài khoản" style="background:transparent; border:none; color:var(--text-light); font-size:1.1rem; cursor:pointer; padding:6px 8px;">🚪</button>
+      </div>
+    </aside>
+
+    <!-- MAIN APP AREA -->
+    <div class="app-main">
+      
+      <!-- TOPBAR -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="menu-toggle-btn" id="mobile-menu-toggle" aria-label="Mở menu">☰</button>
+          <span class="badge badge-cyan" style="font-size:0.75rem; padding:4px 10px;">⚡ Sprint 2</span>
+          <div class="header-search">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="global-search-input" placeholder="Tìm kiếm cài đặt...">
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="btn-icon" id="theme-toggle-btn" title="Chuyển chế độ Sáng / Tối">🌙</button>
+          <div class="notification-btn-wrap">
+            <button class="btn-icon" id="notif-dropdown-btn" title="Xem thông báo">🔔</button>
+            <span class="notification-badge"></span>
+          </div>
+          <a href="index.html" class="btn btn-secondary btn-sm">← Về Dashboard</a>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+        
+        <header class="page-header">
+          <div class="page-title">
+            <h1>Cài Đặt Hệ Thống & Quét Thông Báo Tự Động</h1>
+            <p>Quản lý giao diện, tiến trình nền tự động quét deadline (Push Notifications) và sao lưu dữ liệu.</p>
+          </div>
+        </header>
+
+        <!-- GRID CÀI ĐẶT 2 CỘT -->
+        <section style="display:grid; grid-template-columns: 1fr 1fr; gap:26px;">
+          
+          <!-- KHỐI 1: TỰ ĐỘNG HÓA NHẮC VIỆC (PUSH NOTIFICATIONS VIA JAVASCRIPT) -->
+          <article class="card card-clean">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+              <h3 style="font-size:1.15rem; font-weight:800; color:var(--primary);">
+                Tiến Trình Nhắc Việc Tự Động (Push Engine)
+              </h3>
+              <span class="badge badge-cyan">setInterval 30s</span>
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:18px;">
+              Tiến trình nền JavaScript tự động quét các Task trong <code>StorageManager</code> có deadline &lt; 48 giờ để đẩy thông báo Toast trực quan.
+            </p>
+
+            <div style="background:var(--bg-subtle); border-radius:var(--radius-md); padding:16px; border:1px solid var(--border-color); margin-bottom:18px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <strong style="font-size:0.9rem;">Trạng thái tiến trình nền:</strong>
+                  <div style="font-size:0.75rem; color:var(--success); font-weight:700;">● Đang chạy liên tục (Active)</div>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="UI.showToast('🔔 Đang quét lại toàn bộ Deadline...', 'info');">
+                  Quét Ngay
+                </button>
+              </div>
+            </div>
+
+            <h4 style="font-size:0.9rem; font-weight:800; margin-bottom:10px;">Lịch sử thông báo hệ thống:</h4>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div style="padding:10px 14px; background:var(--bg-card); border-left:3px solid var(--primary); border-radius:var(--radius-sm); border:1px solid var(--border-color); font-size:0.82rem;">
+                <strong>[Nhắc Deadline]</strong> Nhiệm vụ "Lập trình Logic Kéo thả" sắp đến hạn trong 48h.
+              </div>
+              <div style="padding:10px 14px; background:var(--bg-card); border-left:3px solid var(--success); border-radius:var(--radius-sm); border:1px solid var(--border-color); font-size:0.82rem;">
+                <strong>[Hoàn Thành]</strong> Hồ Nguyễn Mai Trang đã hoàn tất task "Bảng Kanban CSS Grid".
+              </div>
+            </div>
+          </article>
+
+          <!-- KHỐI 2: TÙY BIẾN GIAO DIỆN (NÂU & VÀNG ÁNH KIM - ĐIỂM NHẤN HỔ PHÁCH) -->
+          <article class="card card-clean">
+            <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:14px; color:var(--primary);">
+              Tùy Biến Giao Diện & Bảng Màu
+            </h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:18px;">
+              Hệ thống hỗ trợ chuyển đổi linh hoạt giữa giao diện <strong>Ban Đêm (Obsidian Slate &amp; Cyan)</strong> hiện đại và <strong>Ban Ngày (Light Crisp Clean)</strong> sáng sủa, độ tương phản cao.
+            </p>
+
+            <div class="form-group">
+              <label class="form-label">Chế độ hiển thị (Theme Mode):</label>
+              <div style="display:flex; gap:12px;">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="App.setTheme('light');" style="flex:1;">
+                  ☀️ Ban Ngày (Light Mode)
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="App.setTheme('dark');" style="flex:1;">
+                  🌙 Ban Đêm (Dark Slate)
+                </button>
+              </div>
+            </div>
+
+            <!-- BẢNG MÀU HIỂN THỊ TRỰC QUAN -->
+            <div style="margin-top:20px; padding:14px; background:var(--bg-subtle); border-radius:var(--radius-md); border:1px solid var(--border-color);">
+              <div style="font-size:0.8rem; font-weight:700; margin-bottom:8px;">Bảng màu đang kích hoạt (Obsidian Slate &amp; Electric Cyan):</div>
+              <div style="display:flex; gap:8px;">
+                <div style="flex:1; height:32px; border-radius:6px; background:#0b0f17; border:1px solid rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.7rem; font-weight:700;" title="Obsidian Slate">Dark Slate</div>
+                <div style="flex:1; height:32px; border-radius:6px; background:#06b6d4; display:flex; align-items:center; justify-content:center; color:#0b0f17; font-size:0.7rem; font-weight:700;" title="Electric Cyan">Cyan Accent</div>
+                <div style="flex:1; height:32px; border-radius:6px; background:#14b8a6; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.7rem; font-weight:700; box-shadow:0 0 10px rgba(20,184,166,0.4);" title="Teal Modern">Teal Energy ★</div>
+              </div>
+            </div>
+          </article>
+
+          <!-- KHỐI 3: HỒ SƠ NGƯỜI DÙNG HIỆN TẠI -->
+          <article class="card card-clean">
+            <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:14px; color:var(--primary);">
+              Hồ Sơ Đang Đăng Nhập
+            </h3>
+            
+            <form id="profile-settings-form">
+              <div class="form-group">
+                <label class="form-label" for="prof-name">Họ và tên</label>
+                <input type="text" id="prof-name" name="name" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="prof-email">Email trường LHU</label>
+                <input type="email" id="prof-email" name="email" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="prof-role">Vai trò Scrum</label>
+                <input type="text" id="prof-role" name="role" class="form-control" required>
+              </div>
+
+              <button type="submit" class="btn btn-cyan" style="width:100%;">
+                Cập Nhật Thông Tin Cá Nhân
+              </button>
+            </form>
+          </article>
+
+          <!-- KHỐI 4: SAO LƯU & KHÔI PHỤC DỮ LIỆU (JSON BACKUP / RESTORE) -->
+          <article class="card card-clean">
+            <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:14px; color:var(--primary);">
+              Sao Lưu & Khôi Phục Dữ Liệu
+            </h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:18px;">
+              Toàn bộ dữ liệu 5 thành viên, danh sách task, chấm công timelogs và thông báo được quản lý theo chuẩn Shared Data Contract.
+            </p>
+
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <button type="button" class="btn btn-primary" id="export-json-btn">
+                📥 Xuất File Dữ Liệu JSON (Backup)
+              </button>
+              
+              <button type="button" class="btn btn-danger" id="reset-data-btn">
+                ↺ Khôi Phục Dữ Liệu Mẫu Ban Đầu
+              </button>
+            </div>
+          </article>
+
+        </section>
+
+      </main>
+
+    </div>
+  </div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/logic.js"></script>
+  <script src="assets/js/features.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      SettingsController.init();
+    });
+  </script>
+</body>
+</html>
