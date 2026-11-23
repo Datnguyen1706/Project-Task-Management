@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Báo cáo tiến độ và chấm công thời gian thực Time-tracking cho sinh viên LHU - PROTASK">
+  <meta name="author" content="LHU Software Engineering Team">
+  <title>PROTASK - Báo cáo Tiến độ & Chấm công (Time-tracking)</title>
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- SIDEBAR NAVIGATION (10 TRANG CHUẨN) -->
+    <aside class="app-sidebar" aria-label="Thanh điều hướng chính">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <img src="assets/images/chim_lac_gold.png" alt="Chim Lạc Origami LHU" class="brand-chim-lac">
+          <span style="letter-spacing:-0.5px;">PROTASK</span>
+          <span class="brand-badge">LHU</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Tổng quan & Điều hành</div>
+        <a href="index.html" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span>Trang chủ (Dashboard)</span>
+        </a>
+        <a href="kanban.html" class="nav-item">
+          <span class="nav-icon">📋</span>
+          <span>Bảng việc (Kanban)</span>
+          <span class="nav-count" id="sidebar-task-count">12</span>
+        </a>
+        <a href="task-detail.html" class="nav-item">
+          <span class="nav-icon">🔍</span>
+          <span>Chi tiết Task & Thảo luận</span>
+        </a>
+        <a href="gantt.html" class="nav-item">
+          <span class="nav-icon">📈</span>
+          <span>Lịch trình (Gantt)</span>
+        </a>
+        <a href="calendar.html" class="nav-item">
+          <span class="nav-icon">📅</span>
+          <span>Lịch công việc (Calendar)</span>
+        </a>
+
+        <div class="nav-section-title">Tài nguyên & Hiệu suất</div>
+        <a href="resources.html" class="nav-item">
+          <span class="nav-icon">🔥</span>
+          <span>Phân bổ tài nguyên</span>
+        </a>
+        <a href="reports.html" class="nav-item active">
+          <span class="nav-icon">⏱️</span>
+          <span>Báo cáo & Chấm công</span>
+        </a>
+        <a href="members.html" class="nav-item">
+          <span class="nav-icon">👥</span>
+          <span>Quản lý thành viên</span>
+          <span class="nav-count">5</span>
+        </a>
+
+        <div class="nav-section-title">Hệ thống & Cài đặt</div>
+        <a href="settings.html" class="nav-item">
+          <span class="nav-icon">⚙️</span>
+          <span>Thông báo & Cài đặt</span>
+        </a>
+        <a href="login.html" class="nav-item">
+          <span class="nav-icon">🚪</span>
+          <span>Đăng nhập / Đổi tài khoản</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-profile" style="flex:1;">
+          <div class="avatar" style="background:#06b6d4;">NCĐ</div>
+          <div class="user-mini-info">
+            <h5>Nguyễn Chí Đạt</h5>
+            <p>Leader / Project Manager</p>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-logout-action" title="Đăng xuất khỏi tài khoản" style="background:transparent; border:none; color:var(--text-light); font-size:1.1rem; cursor:pointer; padding:6px 8px;">🚪</button>
+      </div>
+    </aside>
+
+    <!-- MAIN APP AREA -->
+    <div class="app-main">
+      
+      <!-- TOPBAR -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="menu-toggle-btn" id="mobile-menu-toggle" aria-label="Mở menu">☰</button>
+          <span class="badge badge-cyan" style="font-size:0.75rem; padding:4px 10px;">⚡ Sprint 2</span>
+          <div class="header-search">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="global-search-input" placeholder="Tìm kiếm công việc...">
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="btn-icon" id="theme-toggle-btn" title="Chuyển chế độ Sáng / Tối">🌙</button>
+          <div class="notification-btn-wrap">
+            <button class="btn-icon" id="notif-dropdown-btn" title="Xem thông báo">🔔</button>
+            <span class="notification-badge"></span>
+          </div>
+          <a href="resources.html" class="btn btn-secondary btn-sm">🔥 Xem Tải Tài Nguyên</a>
+          <a href="kanban.html" class="btn btn-cyan btn-sm">+ Tạo Task</a>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+        
+        <header class="page-header">
+          <div class="page-title">
+            <h1>Báo Cáo Tiến Độ & Chấm Công (Time-Tracking)</h1>
+            <p>Đồng hồ bấm giờ Pomodoro thời gian thực, Form nộp kết quả link GitHub và nhật ký giờ làm việc.</p>
+          </div>
+          
+          <div style="background:var(--bg-card); padding:10px 18px; border-radius:var(--radius-md); border:1px solid var(--border-color); display:flex; align-items:center; gap:12px;">
+            <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">Tổng thời gian ghi nhận:</span>
+            <strong id="report-total-hours" style="font-size:1.1rem; color:var(--primary);">38.5 giờ</strong>
+          </div>
+        </header>
+
+        <!-- GRID 2 CỘT: ĐỒNG HỒ BẤM GIỜ & FORM NỘP BÁO CÁO -->
+        <section style="display:grid; grid-template-columns: 1fr 1.5fr; gap:24px; margin-bottom:28px;">
+          
+          <!-- KHỐI 1: ĐỒNG HỒ BẤM GIỜ STOPWATCH / POMODORO -->
+          <article class="card card-clean" style="text-align:center; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:32px 24px;">
+            <span class="badge badge-cyan" style="margin-bottom:14px;">⏱️ Live Time-Tracker</span>
+            <h3 style="font-size:1.1rem; font-weight:800; margin-bottom:6px;">Đồng Hồ Tập Trung Công Việc</h3>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:20px;">Bấm giờ thực tế khi bắt đầu code bài tập</p>
+            
+            <!-- DISPLAY ĐỒNG HỒ -->
+            <div id="stopwatch-display" style="font-family:'JetBrains Mono', monospace; font-size:2.8rem; font-weight:800; color:var(--primary); background:var(--bg-subtle); padding:16px 28px; border-radius:var(--radius-lg); border:1px solid var(--border-cyan); margin-bottom:22px; letter-spacing:2px; box-shadow:inset 0 2px 6px rgba(0,0,0,0.06);">
+              00:00:00
+            </div>
+
+            <div style="display:flex; gap:12px; width:100%; max-width:280px;">
+              <button id="timer-start-btn" class="btn btn-primary" style="flex:1;">▶ Bắt đầu</button>
+              <button id="timer-reset-btn" class="btn btn-secondary" style="flex:1;">↺ Đặt lại</button>
+            </div>
+          </article>
+
+          <!-- KHỐI 2: FORM NỘP KẾT QUẢ TIẾN ĐỘ & GHI GIỜ (VALIDATION CHUẨN TUẦN 11) -->
+          <article class="card card-clean">
+            <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:14px; color:var(--primary);">
+              Ghi Nhận Giờ Làm & Nộp Kết Quả
+            </h3>
+
+            <form id="work-report-form" onsubmit="event.preventDefault(); ReportsController.submitWorkReport(this);">
+              <div class="form-group">
+                <label class="form-label" for="report-task-select">Chọn nhiệm vụ thực hiện (*)</label>
+                <select id="report-task-select" name="taskId" class="form-control" required>
+                  <option value="task-101">Xây dựng cấu trúc HTML5 Semantic (Tuần 2)</option>
+                  <option value="task-102">Thiết kế Design System Obsidian Slate & Electric Cyan (Tuần 4)</option>
+                  <option value="task-103">Bảng Kanban CSS Grid 4 cột (Tuần 3)</option>
+                  <option value="task-104" selected>Lập trình Logic Kéo thả Drag & Drop (Tuần 10)</option>
+                  <option value="task-105">Biểu đồ Gantt tương tác & Timeline (Tuần 5)</option>
+                  <option value="task-106">Time-Tracking & Chấm công Stopwatch (Tuần 11)</option>
+                </select>
+              </div>
+
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                <div class="form-group">
+                  <label class="form-label" for="report-hours-input">Số giờ làm thực tế (*)</label>
+                  <input type="number" id="report-hours-input" name="duration" class="form-control" placeholder="Ví dụ: 3.5" step="0.5" min="0.5" max="24" required>
+                  <span style="font-size:0.72rem; color:var(--text-light);">Không được điền số âm</span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="report-url-input">Link Minh chứng (GitHub / Demo)</label>
+                  <input type="url" id="report-url-input" name="repoUrl" class="form-control" placeholder="https://github.com/...">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="report-notes-input">Ghi chú công việc đã hoàn thành</label>
+                <textarea id="report-notes-input" name="notes" class="form-control" rows="2" placeholder="Ví dụ: Đã fix lỗi tràn khung trên iPhone 12 và kiểm tra W3C đạt chuẩn..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-cyan" style="width:100%;">
+                💾 Lưu Vào Nhật Ký Chấm Công
+              </button>
+            </form>
+          </article>
+
+        </section>
+
+        <!-- BẢNG LỊCH SỬ CHẤM CÔNG (TIMELOGS TABLE) -->
+        <section class="card card-clean">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+            <h3 style="font-size:1.1rem; font-weight:800;">Nhật Ký Chấm Công Gần Đây (Time Logs Table)</h3>
+            <span class="badge badge-cyan">Đồng bộ LocalStorage</span>
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.88rem;">
+              <thead>
+                <tr style="border-bottom: 2px solid var(--border-color); color:var(--text-muted); font-size:0.8rem; text-transform:uppercase;">
+                  <th style="padding:12px 16px;">Nhiệm vụ</th>
+                  <th style="padding:12px 16px;">Thành viên</th>
+                  <th style="padding:12px 16px;">Ngày ghi</th>
+                  <th style="padding:12px 16px;">Thời lượng</th>
+                  <th style="padding:12px 16px;">Mô tả kết quả</th>
+                </tr>
+              </thead>
+              <tbody id="timelogs-table-body">
+                <!-- Render động bằng ReportsController.renderTimeLogs() -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </main>
+
+    </div>
+  </div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/logic.js"></script>
+  <script src="assets/js/features.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      ReportsController.init();
+    });
+  </script>
+</body>
+</html>
